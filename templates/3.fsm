@@ -1,0 +1,27 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value service_id (\S+)
+Value service_name(\S+)
+Value customer_id (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}service -> Service
+  ^\s{4}port ${port} -> Ports
+  ^Lag-id\s{14}:\s+${lag_id} -> Lag
+  ^.+show port -> PortType
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Service
+  ^\s{8}vprn ${service_id} name "${service_name}" customer ${customer_id} create
+  ^\s{4}exit -> Start
+
+
+EOF
