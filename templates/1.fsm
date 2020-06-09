@@ -3,7 +3,7 @@ Value Filldown model (\S+)
 Value address ([\d\.\/]+)
 Value source_ip (\S+)
 Value interface (\S+)
-Value port (\S+)
+Value port ([^:\s]+)
 Value slope_policy (\S+)
 Value queue_policy (\S+)
 Value qos (\d+)
@@ -17,6 +17,7 @@ Value port_lag (\S+)
 Value egress_policy (\S+)
 Value type_port (\S+)
 Value type (\S+)
+Value queue_group (\S+)
 
 Start
   ^.+ -oCheckHostIP -> Source
@@ -70,6 +71,7 @@ PortNetwork
 PortEthernet
   ^\s{12}egress-scheduler-policy "${egress_policy}"
   ^\s{16}queue-policy "${queue_policy}"
+  ^\s{20}queue-group "${queue_group}"
   ^\s{8}exit -> Ports
 
 Lag

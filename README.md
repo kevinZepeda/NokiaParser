@@ -1,9 +1,9 @@
 # Nokia Parser
 
 
-This is a very usefull tool to parse some data from Nokia Router
-Devices, in really this is a experiment, this is useless for you
-and this code is so so very bad, you can not use this in PROD.
+This is a very useful tool to parse some data from Nokia Router
+Devices, actually this is an experiment, that is useless for you
+and the code is so bad, you can't use it in PROD.
 
 ### Features in this Version
 * Module **Stage1**.
@@ -40,7 +40,8 @@ and this code is so so very bad, you can not use this in PROD.
 ## Usage
     ```sh
     $ python NokiaParser.py --stage-1 templates/1.fsm /files/*.log Nokia-Devices
-
+    ```
+    ```sh
     ['PUEMTX-PUE7020-SB', '7450', '10.190.2.114', 'epipe', '508053', 'VER-7030', '2', '1/2/18', '2000', '2000', '25.00', '25.00', '30.00', '30.00']
     ['PUEMTX-PUE7020-SB', '7450', '10.190.2.114', 'epipe', '508054', 'VER-7041', '2', '1/2/18', '2000', '2000', '25.00', '25.00', '30.00', '30.00']
     ['PUEMTX-PUE7020-SB', '7450', '10.190.2.114', 'epipe', '508055', 'VER-7103', '2', '1/2/18', '2000', '2000', '25.00', '25.00', '30.00', '30.00']
