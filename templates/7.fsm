@@ -5,10 +5,26 @@ Value l2vpn (\S+)
 Value service_id (\d+)
 Value service_name ([^"]+)
 Value customer_id (\S+)
+Value spoke_spd_id (\S+)
+Value spoke_svc_id (\S+)
+Value sap (\S+)
+Value sdp_id (\S+)
+Value far_end_system_ip (\S+)
+Value port (\S+)
+Value policy (\S+)
+Value lag_id (\S+)
+Value port_lag (\S+)
+Value card (\S+)
+Value buffer_min (\S+)
+Value buffer_max (\S+)
+Value shutdown (\S+)
+Value resv_min (\S+)
+Value resv_max (\S+)
 
 Start
   ^.+ -oCheckHostIP -> Source
   ^.+ show chassis -> Chassis
+  ^\s{4}port ${port} -> Port
   ^\s{4}card ${card} -> Card
   ^\s{4}service -> Service
   ^Lag-id\s{14}:\s+${lag_id} -> Lag
@@ -21,13 +37,29 @@ Chassis
   ^\s+Type\s+:\s${model} -> Start
 
 Service
+  ^\s{8}sdp ${sdp_id} mpls create -> Sdp
   ^\s{8}${l2vpn} ${service_id} name "${service_name}" customer ${customer_id} create -> Vpn
   ^\s{4}exit -> Start
 
-Vpn
-  ^\s{12}sap ${sap} create -> Sap
+Sdp
+  ^\s{12}far-end ${far_end_system_ip} -> Record
   ^\s{8}exit -> Service
 
+Vpn
+  ^\s{12}spoke-sdp ${spoke_spd_id}:${spoke_svc_id}
+  ^\s{12}sap ${sap} create
+  ^\s{8}exit -> Record Service
+
+Port
+  ^\s{8}ethernet -> Ethernet
+  ^\s{4}exit -> Record Start
+
+Ethernet
+  ^\s{12}egress-scheduler-policy "${policy}"
+  ^\s{8}exit -> Port
+
+Lag
+  ^${port_lag}.{36}yes -> Record Start
 
 Card
   ^\s{8}fp 1 -> Fp

@@ -493,7 +493,7 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
-    def stage7(self):
+    def stage7(self,files,temp):
         """
         Docstring for .stage7(files,templates)
         file Processor for logs in Stage 7
@@ -526,8 +526,7 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['sysname','chassis','source_ip','l3vpn','service_id','service_name','customer_id','interface','sap','ingress_qos_id','egress_qos_id','buffer_min','buffer_max','resv_min','resv_max']]
-
+        data = [['sysname','chassis','source_ip','l2vpn','service_id','service_name','customer_id','spoke_spd_id','spoke_svc_id','sap','far_end_system_ip','buffer_min','buffer_max','resv_min','resv_max']]
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
@@ -535,7 +534,83 @@ class Nokia(object):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+            ############Vars###########################
+            l2vpn_list = []
+            ports_policys = {}
+            sdp_ids = {}
+            lags = {}
+            cards = {}
+            ############ Structure results ############
+            # ['sysname', 'model', 'source_ip', 'l2vpn', 'service_id', 'service_name', 'customer_id', 'spoke_spd_id', 'spoke_svc_id', 'sap',
+            # 'sdp_id', 'far_end_system_ip',
+            # 'port', 'policy',
+            # lag_id', 'port_lag'
+            # 'card', 'buffer_min', 'buffer_max', 'shutdown', 'resv_min', 'resv_max'
+            for row in fsm_results:
+                if row[7] != '':
+                    l2vpn_list.append({
+                        "sysname": row[0],
+                        "chassis": row[1],
+                        "source_ip": row[2],
+                        "l2vpn": row[3],
+                        "service_id": row[4],
+                        "service_name": row[5],
+                        "customer_id": row[6],
+                        "spoke_spd_id": row[7],
+                        "spoke_svc_id": row[8],
+                        "sap": row[9],
+                    })
+                if row[10] != '':
+                    sdp_ids[row[10]] = row[11]
+                if row[12] != '':
+                    ports_policys[row[12]] = row[13]
+                if row[14] != '':
+                    lags[row[14]] = row[15]
+                if row[16] != '' and row[19] != '':
+                    cards[row[16]] = {
+                        "buffer_min":row[17],
+                        "buffer_max":row[18],
+                        "shutdown":row[19],
+                        "resv_min":row[20],
+                        "resv_max":row[21]
+                    }
 
+            for i in l2vpn_list:
+                if "lag" not in i["sap"]:
+                    sap = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
+                else:
+                    lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
+                    sap = lags[lag]
+                card = '' if sap[:1] not in cards else cards[sap[:1]]
+                data.append([
+                    i["sysname"],
+                    i["chassis"],
+                    i["source_ip"],
+                    i["l2vpn"],
+                    i["service_id"],
+                    i["service_name"],
+                    i["customer_id"],
+                    i["spoke_spd_id"],
+                    i["spoke_svc_id"],
+                    sap,
+                    '' if i['spoke_spd_id'] not in sdp_ids else sdp_ids[i['spoke_spd_id']],
+                    '' if card == '' else card["buffer_min"],
+                    '' if card == '' else card["buffer_max"],
+                    '' if card == '' else card["resv_min"],
+                    '' if card == '' else card["resv_max"]
+                ])
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_stage_7.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
 
 
 if __name__ == '__main__':
@@ -559,5 +634,7 @@ if __name__ == '__main__':
             print(this.stage5(files,template).message)
         elif '6' in sys.argv[1]:
             print(this.stage6(files,template).message)
+        elif '7' in sys.argv[1]:
+            print(this.stage7(files,template).message)
         else:
             print("We can't find this option")
