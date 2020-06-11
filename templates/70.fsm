@@ -1,0 +1,50 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value l2vpn (\S+)
+Value service_id (\d+)
+Value service_name ([^"]+)
+Value customer_id (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}card ${card} -> Card
+  ^\s{4}service -> Service
+  ^Lag-id\s{14}:\s+${lag_id} -> Lag
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Service
+  ^\s{8}${l2vpn} ${service_id} name "${service_name}" customer ${customer_id} create -> Vpn
+  ^\s{4}exit -> Start
+
+Vpn
+  ^\s{12}sap ${sap} create -> Sap
+  ^\s{8}exit -> Service
+
+
+Card
+  ^\s{8}fp 1 -> Fp
+  ^\s{4}exit -> Record Start
+
+Fp
+  ^\s{12}egress -> CardEgress
+  ^\s{8}exit -> Card
+
+CardEgress
+  ^\s{16}wred-queue-control -> Wred
+  ^\s{12}exit -> Fp
+
+Wred
+  ^\s{20}buffer-allocation min ${buffer_min} max ${buffer_max}
+  ^\s{20}resv-cbs min ${resv_min} max ${resv_max}
+  ^\s{20}${shutdown} shutdown
+  ^\s{16}exit -> CardEgress
+
+EOF
