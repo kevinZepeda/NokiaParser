@@ -70,9 +70,13 @@ PortNetwork
 
 PortEthernet
   ^\s{12}egress-scheduler-policy "${egress_policy}"
-  ^\s{16}queue-policy "${queue_policy}"
-  ^\s{20}queue-group "${queue_group}"
+  ^\s{12}network -> PortEthernetNetwork
   ^\s{8}exit -> Ports
+
+PortEthernetNetwork
+  ^\s{16}queue-policy "${queue_policy}"
+  ^\s{20}queue-group "${queue_group}" instance 1 create
+  ^\s{12}exit -> PortEthernet
 
 Lag
   ^${port_lag}.+yes -> Record Start

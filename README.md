@@ -6,9 +6,18 @@ Devices, actually this is an experiment, that is useless for you
 and the code is so bad, you can't use it in PROD.
 
 ### Features in this Version
-* Module **Stage1**.
-* Module **Stage5**.
-* Module **Stage6**.
+
+Modules:
+*  **Stage1**.
+*  **Stage5**.
+*  **Stage6**.
+*  **Stage7**.
+*  **Stage8**.
+
+Debugger:
+* TextFSM Library
+* Visual Debugger
+
 
 
 ## Requirements
@@ -27,21 +36,24 @@ and the code is so bad, you can't use it in PROD.
 
 1. The Library contains an automation to parse text into a file `.cvs`.
    The parsing use a FSM based on textfsm.
-2. Parser Need some `args` to work: `--stage-x`,`Template`,`[Files]`,`Name`.
-   Args
-   `--stage-x` : This is an option to select Module into CLI.
-   `Template`  : This is a Finite State Machine (fsm) to make parsing.
-   `[Files]`   : This is a list of files to parse.
-   `Name`      : Name for output, this file is creating in the work folder from CLI.
+2. Parser Need some `args` to work: `--stage-x`,`Template`,`[Files]`.
+   Args.
+   * `--stage-x` : This is an option to select Module into CLI.
+   * `Template`  : This is a Finite State Machine (fsm) to make parsing.
+   * `[Files]`   : This is a list of files to parse.
 3. When files are processed, the method `.stageX()` return an object with:
-      **`message`** : Message from parse, and healthy status
-      **`status`**  : Status Code, `200` its OK, `400` fail and `404` Not found
-      **`data`**    : Data files into a JSON
+    *  **`message`** : Message from parse, and healthy status
+    *  **`status`**  : Status Code, `200` its OK, `400` fail and `404` Not found
+    *  **`data`**    : Data files into a JSON
 
+4. Debugger
+    * TextFSM Library Native `$ python parser.py template [files]`
+    * Visual Debugger generate HTML file to see pased data.
+      * `$ python parser.py --visual-debug template [files]`
 ## Usage
 
   ```sh
-  $ python parser.py --stage-1 templates/1.fsm nokia-samples/*.log nokia-devices
+  $ python app.py [--options] template [files]
   ```
 Output
 ```sh
