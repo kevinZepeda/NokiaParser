@@ -819,6 +819,187 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
+    def scenery9(self,files,temp):
+        """
+        Docstring for .scenery9(files,templates)
+        file Processor for logs in scenery 9
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['sysname','chassis','source_ip','l3vpn','service_id','service_name','customer_id','interface','spoke_spd_id','spoke_svc_id','sap','ingress_qos_id','egress_qos_id','port','policy','card','buffer_min','buffer_max','resv_min','resv_max','shutdown']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in files:
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+            ############Vars###########################
+            source_ip = ''
+            l3vpn = ''
+            service_id = ''
+            service_name = ''
+            customer_id = ''
+            l3vpn_list = []
+            l2vpns = {}
+            sdp_ids = {}
+            ports_policys = {}
+            lags = {}
+            cards = {}
+            ############ Structure results ############
+            # ['sysname', 'model', 'source_ip', 'l3vpn', 'service_id', 'service_name', 'customer_id', 'interface', 'spoke_spd_id', 'spoke_svc_id',9
+            # 'sap', 'ingress_qos_id', 'egress_qos_id',12
+            # 'sdp_id', 'far_end_system_ip' 14
+            # 'port', 'policy',16
+            # 'lag_id', 'port_lag' 18
+            # 'card', 'buffer_min', 'buffer_max', 'shutdown', 'resv_min', 'resv_max'] 24
+            for row in fsm_results:
+                if row[2] != '':
+                    source_ip = row[2]
+                if row[3] != '':
+                    l3vpn = row[3]
+                if row[4] != '':
+                    service_id = row[4]
+                if row[5] != '':
+                    service_name = row[5]
+                if row[6] != '':
+                    customer_id = row[6]
+                if row[7] != '' and row[8] != '':
+                    l3vpn_list.append({
+                        "sysname": row[0],
+                        "chassis": row[1],
+                        "source_ip": source_ip,
+                        "l3vpn": l3vpn,
+                        "service_id": service_id,
+                        "service_name": service_name,
+                        "customer_id": customer_id,
+                        "interface": row[7],
+                        "spoke_spd_id": row[8],
+                        "spoke_svc_id": row[9]
+                    })
+                if row[10] != '':
+                    l2vpns[service_id] = {
+                        "sap":row[10],
+                        "ingress":row[11],
+                        "egress":row[12]
+                    }
+                if row[13] != '':
+                    sdp_ids[row[13]] = row[14]
+                if row[15] != '':
+                    ports_policys[row[15]] = row[16]
+                if row[17] != '':
+                    lags[row[17]] = row[18]
+                if row[19] != '':
+                    cards[row[19]] = {
+                        "buffer_min":row[20],
+                        "buffer_max":row[21],
+                        "shutdown":row[22] if row[22] != '' else 'shutdown',
+                        "resv_min":row[23],
+                        "resv_max":row[24]
+                    }
+            if len(l2vpns) != 0:
+                for i in l3vpn_list:
+                    try:
+                        match = l2vpns[i['spoke_svc_id']]
+                        if "lag" not in match["sap"]:
+                            port = match["sap"][:match["sap"].find(":")] if ":" in match["sap"] else match["sap"]
+                        else:
+                            lag = match["sap"][4:match["sap"].find(":")] if ":" in match["sap"] else match["sap"][4:]
+                            port = '' if lag not in lags else lags[lag]
+                        card = '' if port[:1] not in cards else cards[port[:1]]
+                        data.append([
+                            i["sysname"],
+                            i["chassis"],
+                            i["source_ip"],
+                            i["l3vpn"],
+                            i["service_id"],
+                            i["service_name"],
+                            i["customer_id"],
+                            i["interface"],
+                            i['spoke_spd_id'],
+                            i['spoke_svc_id'],
+                            match['sap'],
+                            match['ingress'],
+                            match['egress'],
+                            port,
+                            '' if port not in ports_policys else ports_policys[port],
+                            port[:1],
+                            '' if card == '' else card["buffer_min"],
+                            '' if card == '' else card["buffer_max"],
+                            '' if card == '' else card["resv_min"],
+                            '' if card == '' else card["resv_max"],
+                            '' if card == '' else card["shutdown"]
+                            ])
+                        if console:
+                            print([
+                            i["sysname"],
+                            i["chassis"],
+                            i["source_ip"],
+                            i["l3vpn"],
+                            i["service_id"],
+                            i["service_name"],
+                            i["customer_id"],
+                            i["interface"],
+                            i['spoke_spd_id'],
+                            i['spoke_svc_id'],
+                            match['sap'],
+                            match['ingress'],
+                            match['egress'],
+                            port,
+                            '' if port not in ports_policys else ports_policys[port],
+                            port[:1],
+                            '' if card == '' else card["buffer_min"],
+                            '' if card == '' else card["buffer_max"],
+                            '' if card == '' else card["resv_min"],
+                            '' if card == '' else card["resv_max"],
+                            '' if card == '' else card["shutdown"]
+                            ])
+
+                    except Exception as e:
+                        match = {'sap':'','ingress':'','egress':''}
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_9.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+
 if __name__ == '__main__':
     console = True
     try:
@@ -844,5 +1025,7 @@ if __name__ == '__main__':
             print(this.scenery7(files,template).message)
         elif '8' in sys.argv[1]:
             print(this.scenery8(files,template).message)
+        elif '9' in sys.argv[1]:
+            print(this.scenery9(files,template).message)
         else:
             print("We can't find this option")

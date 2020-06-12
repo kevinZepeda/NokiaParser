@@ -5,6 +5,7 @@ Value l3vpn (\S+)
 Value service_id (\d+)
 Value service_name ([^"]+)
 Value customer_id (\S+)
+Value interface (\S+)
 Value spoke_spd_id (\S+)
 Value spoke_svc_id (\S+)
 Value sap (\S+)
@@ -48,9 +49,14 @@ Sdp
   ^\s{8}exit -> Service
 
 Vpn
-  ^\s{12}spoke-sdp ${spoke_spd_id}:${spoke_svc_id}
+  # ^\s{12}spoke-sdp ${spoke_spd_id}:${spoke_svc_id} -> Record
   ^\s{12}sap ${sap} create -> Sap
-  ^\s{8}exit -> Record Service
+  ^\s{12}interface "${interface}" create -> Interface
+  ^\s{8}exit -> Service
+
+Interface
+  ^\s{16}spoke-sdp ${spoke_spd_id}:${spoke_svc_id} -> Record
+  ^\s{12}exit -> Vpn
 
 Sap
   ^\s{16}ingress -> Ingress
