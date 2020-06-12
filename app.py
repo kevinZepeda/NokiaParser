@@ -34,7 +34,7 @@ class Nokia(object):
     """
     Docstring for Nokia.
     Class to parse nokia devices
-    logs basend on stages
+    logs basend on scenerys
 
     Parameters
     ----------
@@ -47,10 +47,11 @@ class Nokia(object):
     def __init__(self,console = False):
         super(Nokia, self).__init__()
         self.console = console
-    def stage1(self,files,temp):
+
+    def scenery1(self,files,temp):
         """
-        Docstring for .stage1(files,templates)
-        file Processor for logs in Stage 1
+        Docstring for .scenery1(files,templates)
+        file Processor for logs in scenery 1
 
         Parameters
         ----------
@@ -190,7 +191,7 @@ class Nokia(object):
                     )
 
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_stage_1_2.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_1_2.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -199,10 +200,10 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
-    def stage5(self,files,temp):
+    def scenery5(self,files,temp):
         """
-        Docstring for .stage5(files,templates)
-        file Processor for logs in Stage 5
+        Docstring for .scenery5(files,templates)
+        file Processor for logs in scenery 5
 
         Parameters
         ----------
@@ -342,10 +343,10 @@ class Nokia(object):
                     '' if card == '' else card["resv_min"],
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
-                ])
+                    ])
 
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_stage_5.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_5.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -354,10 +355,10 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
-    def stage6(self,files,temp):
+    def scenery6(self,files,temp):
         """
-        Docstring for .stage6(files,templates)
-        file Processor for logs in Stage 6
+        Docstring for .scenery6(files,templates)
+        file Processor for logs in scenery 6
 
         Parameters
         ----------
@@ -477,7 +478,7 @@ class Nokia(object):
                     '' if card == '' else card["resv_min"],
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
-                ])
+                    ])
                 if console:
                     print([
                     i["sysname"],
@@ -498,9 +499,9 @@ class Nokia(object):
                     '' if card == '' else card["resv_min"],
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
-                ])
+                    ])
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_stage_6.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_6.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -509,10 +510,10 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
-    def stage7(self,files,temp):
+    def scenery7(self,files,temp):
         """
-        Docstring for .stage7(files,templates)
-        file Processor for logs in Stage 7
+        Docstring for .scenery7(files,templates)
+        file Processor for logs in scenery 7
 
         Parameters
         ----------
@@ -542,7 +543,7 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['sysname','chassis','source_ip','l2vpn','service_id','service_name','customer_id','spoke_spd_id','spoke_svc_id','sap','far_end_system_ip','buffer_min','buffer_max','resv_min','resv_max','shutdown']]
+        data = [['sysname','chassis','source_ip','l2vpn','service_id','service_name','customer_id','spoke_spd_id','spoke_svc_id','sap','far_end_system_ip','port','policy','card','buffer_min','buffer_max','resv_min','resv_max','shutdown']]
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
@@ -613,14 +614,39 @@ class Nokia(object):
                     i["spoke_svc_id"],
                     i['sap'],
                     '' if i['spoke_spd_id'] not in sdp_ids else sdp_ids[i['spoke_spd_id']],
+                    sap,
+                    '' if sap not in ports_policys else ports_policys[sap],
+                    sap[:1],
                     '' if card == '' else card["buffer_min"],
                     '' if card == '' else card["buffer_max"],
                     '' if card == '' else card["resv_min"],
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
-                ])
+                    ])
+                if console:
+                    print([
+                    i["sysname"],
+                    i["chassis"],
+                    i["source_ip"],
+                    i["l2vpn"],
+                    i["service_id"],
+                    i["service_name"],
+                    i["customer_id"],
+                    i["spoke_spd_id"],
+                    i["spoke_svc_id"],
+                    i['sap'],
+                    '' if i['spoke_spd_id'] not in sdp_ids else sdp_ids[i['spoke_spd_id']],
+                    sap,
+                    '' if sap not in ports_policys else ports_policys[sap],
+                    sap[:1],
+                    '' if card == '' else card["buffer_min"],
+                    '' if card == '' else card["buffer_max"],
+                    '' if card == '' else card["resv_min"],
+                    '' if card == '' else card["resv_max"],
+                    '' if card == '' else card["shutdown"]
+                    ])
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_stage_7.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_7.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -630,10 +656,10 @@ class Nokia(object):
         return Get(200,'All files were processed correctly',data)
 
 
-    def stage8(self,files,temp):
+    def scenery8(self,files,temp):
         """
-        Docstring for .stage8(files,templates)
-        file Processor for logs in Stage 8
+        Docstring for .scenery8(files,templates)
+        file Processor for logs in scenery 8
 
         Parameters
         ----------
@@ -663,7 +689,7 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['sysname','chassis','source_ip','vpls','l3vpn','service_id','service_name','customer_id','interface','sap','ingress_qos_id','egress_qos_id','buffer_min','buffer_max','resv_min','resv_max']]
+        data = [['sysname','chassis','source_ip','l3vpn','service_id','service_name','customer_id','interface','sap','ingress_qos_id','egress_qos_id','port','policy','card','buffer_min','buffer_max','resv_min','resv_max','shutdown']]
 
         ###############  Template #######################
         template = open(temp)
@@ -683,6 +709,7 @@ class Nokia(object):
             service_name = ''
             customer_id = ''
             l3vpn_list = []
+            vplss = {}
             ports_policys = {}
             lags = {}
             cards = {}
@@ -698,7 +725,7 @@ class Nokia(object):
                     service_name = row[5]
                 if row[6] != '':
                     customer_id = row[6]
-                if row[7] != '' and row[22] != '':
+                if row[7] != '':
                     l3vpn_list.append({
                         "sysname": row[0],
                         "chassis": row[1],
@@ -708,70 +735,82 @@ class Nokia(object):
                         "service_name": service_name,
                         "customer_id": customer_id,
                         "interface": row[7],
-                        "sap": row[8],
-                        "ingress_qos_id": row[9],
-                        "egress_qos_id": row[10],
-                        "vpls":row[22]
+                        "vpls": row[8],
                     })
-                if row[11] != '':
-                    ports_policys[row[11]] = row[13]
+                if row[9] != '':
+                    vplss[row[5]] = {
+                        "sap":row[9],
+                        "ingress": row[10],
+                        "egress":row[11]
+                    }
+                if row[12] != '':
+                    ports_policys[row[12]] = row[13]
                 if row[14] != '':
                     lags[row[14]] = row[15]
-                if row[16] != '' and row[19] != '':
+                if row[16] != '':
                     cards[row[16]] = {
                         "buffer_min":row[17],
                         "buffer_max":row[18],
-                        "shutdown":row[19],
+                        "shutdown":row[19] if row[19] != '' else 'shutdown',
                         "resv_min":row[20],
                         "resv_max":row[21]
                     }
             for i in l3vpn_list:
-                if "lag" not in i["sap"]:
-                    port = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
+                try:
+                    match = vplss[i['vpls']]
+                except Exception as e:
+                    match = {'sap':'','ingress':'','egress':''}
+                if "lag" not in match["sap"]:
+                    port = match["sap"][:match["sap"].find(":")] if ":" in match["sap"] else match["sap"]
                 else:
-                    lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
+                    lag = match["sap"][4:match["sap"].find(":")] if ":" in match["sap"] else match["sap"][4:]
                     port = '' if lag not in lags else lags[lag]
                 card = '' if port[:1] not in cards else cards[port[:1]]
                 data.append([
                     i["sysname"],
                     i["chassis"],
                     i["source_ip"],
-                    i['vpls'],
                     i["l3vpn"],
                     i["service_id"],
                     i["service_name"],
                     i["customer_id"],
                     i["interface"],
+                    match['sap'],
+                    match['ingress'],
+                    match['egress'],
                     port,
-                    i["ingress_qos_id"],
-                    i["egress_qos_id"],
+                    '' if port not in ports_policys else ports_policys[port],
+                    port[:1],
                     '' if card == '' else card["buffer_min"],
                     '' if card == '' else card["buffer_max"],
                     '' if card == '' else card["resv_min"],
-                    '' if card == '' else card["resv_max"]
-                ])
+                    '' if card == '' else card["resv_max"],
+                    '' if card == '' else card["shutdown"]
+                    ])
                 if console:
                     print([
-                        i["sysname"],
-                        i["chassis"],
-                        i["source_ip"],
-                        i['vpls'],
-                        i["l3vpn"],
-                        i["service_id"],
-                        i["service_name"],
-                        i["customer_id"],
-                        i["interface"],
-                        port,
-                        i["ingress_qos_id"],
-                        i["egress_qos_id"],
-                        '' if card == '' else card["buffer_min"],
-                        '' if card == '' else card["buffer_max"],
-                        '' if card == '' else card["resv_min"],
-                        '' if card == '' else card["resv_max"]
+                    i["sysname"],
+                    i["chassis"],
+                    i["source_ip"],
+                    i["l3vpn"],
+                    i["service_id"],
+                    i["service_name"],
+                    i["customer_id"],
+                    i["interface"],
+                    match['sap'],
+                    match['ingress'],
+                    match['egress'],
+                    port,
+                    '' if port not in ports_policys else ports_policys[port],
+                    port[:1],
+                    '' if card == '' else card["buffer_min"],
+                    '' if card == '' else card["buffer_max"],
+                    '' if card == '' else card["resv_min"],
+                    '' if card == '' else card["resv_max"],
+                    '' if card == '' else card["shutdown"]
                     ])
-
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_stage_8.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_8.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -790,20 +829,20 @@ if __name__ == '__main__':
     if len(files) == 0:
         print("Files are empty")
     if len(sys.argv) < 4:
-        print("The arguments are invalid, format: --stage-x template [input_files]")
+        print("The arguments are invalid, format: --scenery-x template [input_files]")
     else:
         this = Nokia(console)
         if '1' in sys.argv[1] or '2' in sys.argv[1]:
-            print(this.stage1(files,template).message)
+            print(this.scenery1(files,template).message)
         elif '3' in sys.argv[1]:
-            print(this.stage3(files,template).message)
+            print(this.scenery3(files,template).message)
         elif '5' in sys.argv[1]:
-            print(this.stage5(files,template).message)
+            print(this.scenery5(files,template).message)
         elif '6' in sys.argv[1]:
-            print(this.stage6(files,template).message)
+            print(this.scenery6(files,template).message)
         elif '7' in sys.argv[1]:
-            print(this.stage7(files,template).message)
+            print(this.scenery7(files,template).message)
         elif '8' in sys.argv[1]:
-            print(this.stage8(files,template).message)
+            print(this.scenery8(files,template).message)
         else:
             print("We can't find this option")

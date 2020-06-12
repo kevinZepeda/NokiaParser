@@ -6,11 +6,11 @@ Value service_id (\d+)
 Value service_name ([^"]+)
 Value customer_id (\S+)
 Value interface (.+)
+Value vpls (\S+)
 Value sap (\S+)
 Value ingress_qos_id (\S+)
 Value egress_qos_id (\S+)
 Value port (\S+)
-Value port_address (.+)
 Value policy (\S+)
 Value lag_id (\S+)
 Value port_lag (\S+)
@@ -20,7 +20,6 @@ Value buffer_max (\S+)
 Value shutdown (\S+)
 Value resv_min (\S+)
 Value resv_max (\S+)
-Value vpls (\S+)
 
 Start
   ^.+ -oCheckHostIP -> Source
@@ -38,7 +37,6 @@ Chassis
   ^\s+Type\s+:\s${model} -> Start
 
 Port
-  ^\s{8}description "${port_address}"
   ^\s{8}ethernet -> Ethernet
   ^\s{4}exit -> Record Start
 
@@ -55,25 +53,25 @@ Service
 
 Vpn
   ^\s{12}interface "${interface}" create -> Interface
+  ^\s{12}sap ${sap} create -> Sap
   ^\s{8}exit -> Service
 
 Interface
-  ^\s{16}vpls "${vpls}"
-  ^\s{16}sap ${sap} create -> Sap
-  ^\s{12}exit -> Record Vpn
+  ^\s{16}vpls "${vpls}" -> Record
+  ^\s{12}exit -> Vpn
 
 Sap
-  ^\s{20}ingress -> Ingress
-  ^\s{20}egress -> Egress
-  ^\s{16}exit -> Interface
+  ^\s{16}ingress -> Ingress
+  ^\s{16}egress -> Egress
+  ^\s{12}exit -> Record Interface
 
 Ingress
-  ^\s{24}qos ${ingress_qos_id}
-  ^\s{20}exit -> Sap
+  ^\s{20}qos ${ingress_qos_id}
+  ^\s{16}exit -> Sap
 
 Egress
-  ^\s{24}qos ${egress_qos_id}
-  ^\s{20}exit -> Sap
+  ^\s{20}qos ${egress_qos_id}
+  ^\s{16}exit -> Sap
 
 Card
   ^\s{8}fp 1 -> Fp
