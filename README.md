@@ -8,11 +8,12 @@ and the code is so bad, you can't use it in PROD.
 ### Features in this Version
 
 Modules:
-*  **Stage1**.
-*  **Stage5**.
-*  **Stage6**.
-*  **Stage7**.
-*  **Stage8**.
+*  **Scenery1**.
+*  **Scenery5**.
+*  **Scenery6**.
+*  **Scenery7**.
+*  **Scenery8**.
+*  **Scenery9**.
 
 Debugger:
 * TextFSM Library
@@ -36,12 +37,12 @@ Debugger:
 
 1. The Library contains an automation to parse text into a file `.cvs`.
    The parsing use a FSM based on textfsm.
-2. Parser Need some `args` to work: `--stage-x`,`Template`,`[Files]`.
+2. Parser Need some `args` to work: `--scenery-x`,`Template`,`[Files]`.
    Args.
-   * `--stage-x` : This is an option to select Module into CLI.
+   * `--scenery-x` : This is an option to select Module into CLI.
    * `Template`  : This is a Finite State Machine (fsm) to make parsing.
    * `[Files]`   : This is a list of files to parse.
-3. When files are processed, the method `.stageX()` return an object with:
+3. When files are processed, the method `.sceneryX()` return an object with:
     *  **`message`** : Message from parse, and healthy status
     *  **`status`**  : Status Code, `200` its OK, `400` fail and `404` Not found
     *  **`data`**    : Data files into a JSON
