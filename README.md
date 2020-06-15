@@ -37,9 +37,8 @@ Debugger:
 
 1. The Library contains an automation to parse text into a file `.cvs`.
    The parsing use a FSM based on textfsm.
-2. Parser Need some `args` to work: `--scenery-x`,`Template`,`[Files]`.
+2. Parser Need some `args` to work: `Template`,`[Files]`.
    Args.
-   * `--scenery-x` : This is an option to select Module into CLI.
    * `Template`  : This is a Finite State Machine (fsm) to make parsing.
    * `[Files]`   : This is a list of files to parse.
 3. When files are processed, the method `.sceneryX()` return an object with:
@@ -54,7 +53,7 @@ Debugger:
 ## Usage
 
   ```sh
-  $ python app.py [--options] template [files]
+  $ python app.py template [files]
   ```
 Output
 ```sh
