@@ -18,6 +18,8 @@ Value egress_policy (\S+)
 Value type_port (\S+)
 Value type (\S+)
 Value queue_group (\S+)
+Value bgp_group_name (\S+)
+Value bgp_neighbor (.+)
 
 Start
   ^.+ -oCheckHostIP -> Source
@@ -39,6 +41,7 @@ Base
   ^\s{8}isis ${isis} -> Isis
   ^\s{8}mpls -> Mpls
   ^\s{8}rsvp -> Rsvp
+  ^\s{8}bgp -> Bgp
   ^\s{4}exit -> Start
 
 Interface
@@ -46,6 +49,14 @@ Interface
   ^\s{12}port ${port}
   ^\s{12}qos ${qos} egress-port-redirect-group "${queue_group_name}" egress-instance 1
   ^\s{8}exit -> Record Base
+
+Bgp
+  ^\s{12}group "${bgp_group_name}" -> Neighbor
+  ^\s{8}exit -> Base
+
+Neighbor
+  ^\s{16}neighbor ${bgp_neighbor} -> Record
+  ^\s{12}exit -> Bgp
 
 Isis
   ^\s{12}interface "${isis_if}" -> Record

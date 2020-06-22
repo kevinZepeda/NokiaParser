@@ -9,7 +9,6 @@ Value queue_policy (\S+)
 Value qos (\d+)
 Value queue_group_name (\S+)
 Value isis (\S+)
-Value isis_if (\S+)
 Value mpls (\S+)
 Value rsvp (\S+)
 Value lag_id (\S+)
@@ -36,7 +35,7 @@ Chassis
 
 Base
   ^\s{8}interface "${interface}" -> Interface
-  ^\s{8}isis ${isis} -> Isis
+  ^\s{8}isis 0 -> Isis
   ^\s{8}mpls -> Mpls
   ^\s{8}rsvp -> Rsvp
   ^\s{4}exit -> Start
@@ -44,11 +43,11 @@ Base
 Interface
   ^\s{12}address ${address}
   ^\s{12}port ${port}
-  ^\s{12}qos ${qos} egress-port-redirect-group "${queue_group_name}" egress-instance 1
+  ^\s{12}qos ${qos}
   ^\s{8}exit -> Record Base
 
 Isis
-  ^\s{12}interface "${isis_if}" -> Record
+  ^\s{12}interface "${isis}" -> Record
   ^\s{8}exit -> Base
 
 Mpls
