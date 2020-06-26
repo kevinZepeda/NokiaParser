@@ -1337,7 +1337,7 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['sysname','chassis','source_ip','interface','lag','port','port_type','queue_group_port','address','isis','mpls','rsvp','slope-policy','egress-scheduler-policy','queue-policy','qos','queue-group']]
+        data = [['sysname','chassis','source_ip','interface','lag','port','port_type','address','isis','mpls','rsvp','queue-policy','qos','card','mda','fabric']]
 
         ###############  Template #######################
         template = open(temp)
@@ -1353,26 +1353,24 @@ class Nokia(object):
             fsm_results = re_table.ParseText(raw_text_data)
 
             ############ Structure results ############
-            count = 0
             interfaces = []
             source_ip = ''
-            slope_policy_list = {}
             queue_policy_list = {}
-            egress_policy_list = {}
-            queue_group_name = {}
             port_types = {}
             mpls_interfaces = []
             rsvp_interfaces = []
-            isis = 0
             lag = 0
-            port_pr = ''
-            isis_list = {}
+            isis_list = []
             lag_ports = {}
-
+            card_name = ''
+            card_list = []
+            cards = []
+            # ['sysname', 'model', 'address', 'source_ip', 'interface', 'port',5
+            # 'queue_policy', 'isis', 'mpls', 'rsvp', 'lag_id', 'port_lag',11
+            # 'type_port', 'type', 'card', 'buffer_min', 'buffer_max']16
             for row in fsm_results:
-                if row[3] != '' and count == 0:
+                if row[3] != '':
                     source_ip = row[3]
-                    count += 1
                 if row[4] != '':
                     interfaces.append({
                         "sysname":row[0],
@@ -1381,50 +1379,72 @@ class Nokia(object):
                         "interface":row[4],
                         "port": row[5],
                         'address':row[2],
-                        'qos':row[8],
-                        'queue-group':row[9],
                     })
                 if row[6] != '':
-                    slope_policy_list[row[5]] = row[6]
+                    queue_policy_list[row[5]] = row[6]
                 if row[7] != '':
-                    queue_policy_list[row[5]] = row[7]
-                if row[10] != '' and row[11] != '':
-                    isis = row[10]
-                elif row[11] != '' and row[10] == '':
-                    isis_list[row[11]] = isis
+                    isis_list.append(row[7])
+                if row[8] != '':
+                    mpls_interfaces.append(row[8])
+                if row[9] != '':
+                    rsvp_interfaces.append(row[9])
+                if row[10] != '':
+                    lag_ports['lag-'+row[10]] = row[11]
                 if row[12] != '':
-                    mpls_interfaces.append(row[12])
-                if row[13] != '':
-                    rsvp_interfaces.append(row[13])
+                    port_types[row[12]] = row[13]
                 if row[14] != '':
-                    lag_ports['lag-'+row[14]] = row[15]
-                if row[16] != '':
-                    egress_policy_list[row[5]] = row[16]
-                if row[17] != '':
-                    port_types[row[17]] = row[18]
-                if row[19] != '':
-                    queue_group_name[row[5]] = row[19]
+                    card_name = row[14]
+                    card_list.append(row[14])
+                if row[15] != '':
+                    cards.append({
+                        "card":card_name,
+                        "mda":row[15],
+                        "fabric":row[16]
+                    })
             for i in interfaces:
-                port = i["port"] if i["port"] not in lag_ports else lag_ports[i['port']]
-                data.append([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["interface"],
-                    '' if i["port"] not in lag_ports else i["port"][4:],
-                    port,
-                    '' if port not in port_types else port_types[port],
-                    '' if port not in queue_group_name else queue_group_name[port],
-                    i["address"],
-                    '' if i['interface'] not in isis_list else isis_list[i['interface']],
-                    1 if i["interface"] in mpls_interfaces else 0,
-                    1 if i["interface"] in rsvp_interfaces else 0,
-                    '' if port not in slope_policy_list else slope_policy_list[port],
-                    '' if port not in egress_policy_list else egress_policy_list[port],
-                    '' if port not in queue_policy_list else queue_policy_list[port],
-                    i["qos"],
-                    i["queue-group"]
-                ])
+                for card in cards:
+                    if i['interface'] in isis_list:
+                        port = i["port"] if i["port"] not in lag_ports else lag_ports[i['port']]
+                        if port[:1] == card['card']:
+                            data.append([
+                                i["sysname"],
+                                i["chassis"],
+                                i["source_ip"],
+                                i["interface"],
+                                '' if i["port"] not in lag_ports else i["port"][4:],
+                                port,
+                                '' if port not in port_types else port_types[port],
+                                i["address"],
+                                0,
+                                1 if i["interface"] in mpls_interfaces else 0,
+                                1 if i["interface"] in rsvp_interfaces else 0,
+                                '' if port not in queue_policy_list else queue_policy_list[port],
+                                100,
+                                card['card'],
+                                card['mda'],
+                                card['fabric']
+                            ])
+                            if console:
+                                print([
+                                    i["sysname"],
+                                    i["chassis"],
+                                    i["source_ip"],
+                                    i["interface"],
+                                    '' if i["port"] not in lag_ports else i["port"][4:],
+                                    port,
+                                    '' if port not in port_types else port_types[port],
+                                    i["address"],
+                                    0,
+                                    1 if i["interface"] in mpls_interfaces else 0,
+                                    1 if i["interface"] in rsvp_interfaces else 0,
+                                    '' if port not in queue_policy_list else queue_policy_list[port],
+                                    100,
+                                    card['card'],
+                                    card['mda'],
+                                    card['fabric']
+                                ])
+                    else:
+                        pass
 
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_10.csv', 'w')
@@ -1435,7 +1455,6 @@ class Nokia(object):
         template.close()
 
         return Get(200,'All files were processed correctly',data)
-
 
 
 
@@ -1452,12 +1471,15 @@ if __name__ == '__main__':
         print("The arguments are invalid, format: template [input_files]")
     else:
         this = Nokia(console)
-        if '1' in sys.argv[1] or '2' in sys.argv[1]:
+        if '1.fsm' in sys.argv[1] or '2.fsm' in sys.argv[1]:
             print(this.scenery1(files,template).message)
             # print("End of scenery 1 - 2")
         elif '3' in sys.argv[1]:
             print(this.scenery3(files,template).message)
             # print("End of scenery 3")
+        elif '4' in sys.argv[1]:
+            print(this.scenery4(files,template).message)
+            # print("End of scenery 4")
         elif '5' in sys.argv[1]:
             print(this.scenery5(files,template).message)
             # print("End of scenery 5")
@@ -1473,5 +1495,32 @@ if __name__ == '__main__':
         elif '9' in sys.argv[1]:
             print(this.scenery9(files,template).message)
             # print("End of scenery 9")
+        elif '10.fsm' in sys.argv[1]:
+            # 10.190.2.148	ROUTER  CellSite	CANTRE-VER7054-AA	7705-SAR8
+            # 10.190.2.158	ROUTER  CellSite	PUEMTX-PUE7020-AA	7705-SAR18
+            # 10.190.4.138	ROUTER  CellSite	MXPUEXIU0396BHCSRMOB01	7705-SAR8 v2
+            print(this.scenery10(files,template).message)
+            # print("End of scenery 10")
+        elif '11' in sys.argv[1]:
+            print(this.scenery11(files,template).message)
+            # print("End of scenery 11")
+        elif '12' in sys.argv[1]:
+            print(this.scenery12(files,template).message)
+            # print("End of scenery 12")
+        elif '13' in sys.argv[1]:
+            print(this.scenery13(files,template).message)
+            # print("End of scenery 13")
+        elif '14' in sys.argv[1]:
+            print(this.scenery14(files,template).message)
+            # print("End of scenery 14")
+        elif '15' in sys.argv[1]:
+            print(this.scenery15(files,template).message)
+            # print("End of scenery 15")
+        elif '16' in sys.argv[1]:
+            print(this.scenery16(files,template).message)
+            # print("End of scenery 16")
+        elif '17' in sys.argv[1]:
+            print(this.scenery17(files,template).message)
+            # print("End of scenery 17")
         else:
             print("We can't find this option or template isn't to this tool")
