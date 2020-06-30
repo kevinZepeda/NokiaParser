@@ -1,0 +1,88 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value l2vpn (\S+)
+Value service_id (\d+)
+Value service_name ([^"]+)
+Value customer_id (\S+)
+Value sap (\S+)
+Value ingress_qos_id (\S+)
+Value egress_qos_id (\S+)
+Value port (\S+)
+Value queue_policy (\S+)
+Value lag_id (\S+)
+Value port_lag (\S+)
+Value card (\S+)
+Value mda (\d+)
+Value fabric_network (\d+)
+Value fabric_access (\d+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}port ${port} -> Ports
+  ^\s{4}card ${card} -> Card
+  ^\s{4}service -> Service
+  ^Lag-id\s{14}:\s+${lag_id} -> Lag
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Ports
+  ^\s{8}ethernet -> PortEthernet
+  ^\s{4}exit -> Record Start
+
+PortEthernet
+  ^\s{12}network -> PortEthernetNetwork
+  ^\s{8}exit -> Ports
+
+PortEthernetNetwork
+  ^\s{16}queue-policy "${queue_policy}"
+  ^\s{12}exit -> PortEthernet
+
+Lag
+  ^${port_lag}.{36}yes -> Record Start
+
+Service
+  ^\s{8}${l2vpn} ${service_id} name "${service_name}" customer ${customer_id} create -> Vpn
+  ^\s{4}exit -> Start
+
+Vpn
+  ^\s{12}sap ${sap} create -> Sap
+  ^\s{8}exit -> Service
+
+Sap
+  ^\s{16}ingress -> Ingress
+  ^\s{16}egress -> Egress
+  ^\s{12}exit -> Record Vpn
+
+Ingress
+  ^\s{20}qos ${ingress_qos_id}
+  ^\s{16}exit -> Sap
+
+Egress
+  ^\s{20}qos ${egress_qos_id}
+  ^\s{16}exit -> Sap
+
+Card
+  ^\s{8}mda ${mda} -> Mda
+  ^\s{4}exit -> Start
+
+Mda
+  ^\s{12}network -> MdaNetwork
+  ^\s{12}access -> MdaAccess
+  ^\s{8}exit -> Record Card
+
+MdaNetwork
+  ^\s{20}fabric-policy ${fabric_network}
+  ^\s{12}exit -> Mda
+
+MdaAccess
+  ^\s{20}fabric-policy ${fabric_access}
+  ^\s{12}exit -> Mda
+
+EOF

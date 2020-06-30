@@ -14,7 +14,8 @@ Value type_port (\S+)
 Value type (\S+)
 Value card (\S+)
 Value mda (\d+)
-Value fabric (\d+)
+Value fabric_network (\d+)
+Value fabric_access (\d+)
 
 
 Start
@@ -83,10 +84,15 @@ Card
 
 Mda
   ^\s{12}network -> MdaNetwork
-  ^\s{8}exit -> Card
+  ^\s{12}access -> MdaAccess
+  ^\s{8}exit -> Record Card
 
 MdaNetwork
-  ^\s{20}fabric-policy ${fabric} -> Record
+  ^\s{20}fabric-policy ${fabric_network}
+  ^\s{12}exit -> Mda
+
+MdaAccess
+  ^\s{20}fabric-policy ${fabric_access}
   ^\s{12}exit -> Mda
 
 EOF

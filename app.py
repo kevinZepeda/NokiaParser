@@ -1,5 +1,6 @@
 import textfsm
 import csv
+from tqdm import tqdm
 import sys
 
 class Get(object):
@@ -1337,7 +1338,7 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['sysname','chassis','source_ip','interface','lag','port','port_type','address','isis','mpls','rsvp','queue-policy','qos','card','mda','fabric']]
+        data = [['sysname','chassis','source_ip','interface','lag','port','port_type','address','isis','mpls','rsvp','queue-policy','qos','card','mda','fabric_network','fabric_access']]
 
         ###############  Template #######################
         template = open(temp)
@@ -1363,7 +1364,6 @@ class Nokia(object):
             isis_list = []
             lag_ports = {}
             card_name = ''
-            card_list = []
             cards = []
             # ['sysname', 'model', 'address', 'source_ip', 'interface', 'port',5
             # 'queue_policy', 'isis', 'mpls', 'rsvp', 'lag_id', 'port_lag',11
@@ -1394,12 +1394,12 @@ class Nokia(object):
                     port_types[row[12]] = row[13]
                 if row[14] != '':
                     card_name = row[14]
-                    card_list.append(row[14])
                 if row[15] != '':
                     cards.append({
                         "card":card_name,
                         "mda":row[15],
-                        "fabric":row[16]
+                        "network":row[16],
+                        "access":row[17]
                     })
             for i in interfaces:
                 for card in cards:
@@ -1422,7 +1422,8 @@ class Nokia(object):
                                 100,
                                 card['card'],
                                 card['mda'],
-                                card['fabric']
+                                card['network'],
+                                card['access']
                             ])
                             if console:
                                 print([
@@ -1441,13 +1442,428 @@ class Nokia(object):
                                     100,
                                     card['card'],
                                     card['mda'],
-                                    card['fabric']
+                                    card['network'],
+                                    card['access']
                                 ])
                     else:
                         pass
 
         if console:
-            myFile = open('Nokia_'+str(len(files))+'_files_scenery_10.csv', 'w')
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_10_11.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+
+    def scenery12(self,files,temp):
+        """
+        Docstring for .scenery12(files,templates)
+        file Processor for logs in scenery 12
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['sysname','chassis','source_ip','l3vpn','service_id','service_name','customer_id','interface','sap','ingress_qos_id','egress_qos_id','port','policy','card','mda','fabric_network','fabric_access']]
+        file_list = []
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            source_ip = ''
+            l3vpn = ''
+            service_id = ''
+            service_name = ''
+            customer_id = ''
+            l3vpn_list = []
+            ports_policys = {}
+            lags = {}
+            card_name = ''
+            cards = []
+
+            # ['sysname', 'model', 'source_ip',2
+            #'l3vpn', 'service_id', 'service_name', 'customer_id',6
+            #'interface', 'sap', 'ingress_qos_id', 'egress_qos_id',10
+            # 'port', 'queue_policy', 'lag_id', 'port_lag',14
+            # 'card', 'mda', 'fabric_network', 'fabric_access']18
+
+            for row in fsm_results:
+                if row[2] != '':
+                    source_ip = row[2]
+                if row[3] != '':
+                    l3vpn = row[3]
+                if row[4] != '':
+                    service_id = row[4]
+                if row[5] != '':
+                    service_name = row[5]
+                if row[6] != '':
+                    customer_id = row[6]
+                if row[7] != '':
+                    l3vpn_list.append({
+                        "sysname": row[0],
+                        "chassis": row[1],
+                        "source_ip": source_ip,
+                        "l3vpn": l3vpn,
+                        "service_id": service_id,
+                        "service_name": service_name,
+                        "customer_id": customer_id,
+                        "interface": row[7],
+                        "sap": row[8],
+                        "ingress_qos_id": row[9],
+                        "egress_qos_id": row[10],
+                    })
+                if row[11] != '':
+                    ports_policys[row[11]] = row[12]
+                if row[13] != '':
+                    lags[row[13]] = row[14]
+                if row[15] != '':
+                    card_name = row[15]
+                if row[16] != '':
+                    cards.append({
+                        "card":card_name,
+                        "mda":row[16],
+                        "network":row[17],
+                        "access":row[18]
+                    })
+
+            for i in l3vpn_list:
+                if "lag" not in i["sap"]:
+                    port = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
+                else:
+                    lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
+                    port = '' if lag not in lags else lags[lag]
+                for card in cards:
+                    if port[:1] == card['card']:
+                        data.append([
+                            i["sysname"],
+                            i["chassis"],
+                            i["source_ip"],
+                            i["l3vpn"],
+                            i["service_id"],
+                            i["service_name"],
+                            i["customer_id"],
+                            i["interface"],
+                            i['sap'],
+                            i["ingress_qos_id"],
+                            i["egress_qos_id"],
+                            port,
+                            '' if port not in ports_policys else ports_policys[port],
+                            card['card'],
+                            card['mda'],
+                            card['network'],
+                            card['access']
+                        ])
+                        if filename not in file_list:
+                            file_list.append(filename)
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_12.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+        if console:
+            print(file_list)
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery13(self,files,temp):
+        """
+        Docstring for .scenery13(files,templates)
+        file Processor for logs in scenery 13
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+
+        data = [['sysname','chassis','source_ip','l2vpn','service_id','service_name','customer_id','sap','ingress_qos_id','egress_qos_id','port','policy','card', 'mda', 'fabric_network', 'fabric_access']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+            ############Vars###########################
+            source_ip = ''
+            l2vpn = ''
+            service_id = ''
+            service_name = ''
+            customer_id = ''
+            l2vpn_list = []
+            ports_policys = {}
+            lags = {}
+            card_name = ''
+            cards = []
+            #['sysname', 'model', 'source_ip',2
+            # 'l2vpn', 'service_id', 'service_name', 'customer_id',6
+            # 'sap', 'ingress_qos_id', 'egress_qos_id',9
+            # 'port', 'queue_policy', 'lag_id', 'port_lag',13
+            # 'card', 'mda', 'fabric_network', 'fabric_access']
+            ############ Structure results ############
+            for row in fsm_results:
+                if row[2] != '':
+                    source_ip = row[2]
+                if row[3] != '':
+                    l2vpn = row[3]
+                if row[4] != '':
+                    service_id = row[4]
+                if row[5] != '':
+                    service_name = row[5]
+                if row[6] != '':
+                    customer_id = row[6]
+                if row[7] != '':
+                    l2vpn_list.append({
+                        "sysname": row[0],
+                        "chassis": row[1],
+                        "source_ip": source_ip,
+                        "l2vpn": l2vpn,
+                        "service_id": service_id,
+                        "service_name": service_name,
+                        "customer_id": customer_id,
+                        "sap": row[7],
+                        "ingress_qos_id": row[8],
+                        "egress_qos_id": row[9],
+                    })
+                if row[10] != '':
+                    ports_policys[row[10]] = row[11]
+                if row[12] != '':
+                    lags[row[12]] = row[13]
+                if row[14] != '':
+                    card_name = row[14]
+                if row[15] != '':
+                    cards.append({
+                        "card":card_name,
+                        "mda":row[15],
+                        "network":row[16],
+                        "access":row[17]
+                    })
+            for i in l2vpn_list:
+                if "lag" not in i["sap"]:
+                    sap = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
+                else:
+                    lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
+                    sap = '' if lag not in lags else lags[lag]
+
+                for card in cards:
+                    if sap[:1] == card['card']:
+                        data.append([
+                            i["sysname"],
+                            i["chassis"],
+                            i["source_ip"],
+                            i["l2vpn"],
+                            i["service_id"],
+                            i["service_name"],
+                            i["customer_id"],
+                            i['sap'],
+                            i["ingress_qos_id"],
+                            i["egress_qos_id"],
+                            sap,
+                            '' if sap not in ports_policys else ports_policys[sap],
+                            card['card'],
+                            card['mda'],
+                            card['network'],
+                            card['access']
+                            ])
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_13.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery14(self,files,temp):
+        """
+        Docstring for .scenery14(files,templates)
+        file Processor for logs in scenery 14
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['sysname','chassis','source_ip','l2vpn','service_id','service_name','customer_id','spoke_spd_id','spoke_svc_id','sap','far_end_system_ip','port','policy','card', 'mda', 'fabric_network', 'fabric_access']]
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+            ############Vars###########################4
+            source_ip = ''
+            l2vpn_list = []
+            ports_policys = {}
+            sdp_ids = {}
+            lags = {}
+            cards = []
+            card_name = ''
+            ############ Structure results ############
+            # ['sysname', 'model', 'source_ip',2
+            # 'l2vpn', 'service_id', 'service_name', 'customer_id',6
+            # 'spoke_spd_id', 'spoke_svc_id', 'sap', 'sdp_id', 'far_end_system_ip',11
+            # 'port', 'policy', 'lag_id', 'port_lag',15
+            # 'card', 'mda', 'fabric_network', 'fabric_access']
+            for row in fsm_results:
+                if row[2] != '':
+                    source_ip = row[2]
+                if row[7] != '' and row[9] != '':
+                    l2vpn_list.append({
+                        "sysname": row[0],
+                        "chassis": row[1],
+                        "source_ip": source_ip,
+                        "l2vpn": row[3],
+                        "service_id": row[4],
+                        "service_name": row[5],
+                        "customer_id": row[6],
+                        "spoke_spd_id": row[7],
+                        "spoke_svc_id": row[8],
+                        "sap": row[9],
+                    })
+                if row[10] != '':
+                    sdp_ids[row[10]] = row[11]
+                if row[12] != '':
+                    ports_policys[row[12]] = row[13]
+                if row[14] != '':
+                    lags[row[14]] = row[15]
+                if row[16] != '':
+                    card_name = row[16]
+                if row[17] != '':
+                    cards.append({
+                        "card":card_name,
+                        "mda":row[17],
+                        "network":row[18],
+                        "access":row[19]
+                    })
+
+            for i in l2vpn_list:
+                if "lag" not in i["sap"]:
+                    sap = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
+                else:
+                    lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
+                    sap = '' if lag not in lags else lags[lag]
+
+                for card in cards:
+                    if sap[:1] == card['card']:
+                        data.append([
+                        i["sysname"],
+                        i["chassis"],
+                        i["source_ip"],
+                        i["l2vpn"],
+                        i["service_id"],
+                        i["service_name"],
+                        i["customer_id"],
+                        i["spoke_spd_id"],
+                        i["spoke_svc_id"],
+                        i['sap'],
+                        '' if i['spoke_spd_id'] not in sdp_ids else sdp_ids[i['spoke_spd_id']],
+                        sap,
+                        '' if sap not in ports_policys else ports_policys[sap],
+                        card['card'],
+                        card['mda'],
+                        card['network'],
+                        card['access']
+                        ])
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_14.csv', 'w')
             with myFile:
                 writer = csv.writer(myFile)
                 writer.writerows(data)
@@ -1471,28 +1887,28 @@ if __name__ == '__main__':
         print("The arguments are invalid, format: template [input_files]")
     else:
         this = Nokia(console)
-        if '1.fsm' in sys.argv[1] or '2.fsm' in sys.argv[1]:
+        if '01.fsm' in sys.argv[1] or '02.fsm' in sys.argv[1]:
             print(this.scenery1(files,template).message)
             # print("End of scenery 1 - 2")
-        elif '3' in sys.argv[1]:
+        elif '03' in sys.argv[1]:
             print(this.scenery3(files,template).message)
             # print("End of scenery 3")
-        elif '4' in sys.argv[1]:
+        elif '04' in sys.argv[1]:
             print(this.scenery4(files,template).message)
             # print("End of scenery 4")
-        elif '5' in sys.argv[1]:
+        elif '05' in sys.argv[1]:
             print(this.scenery5(files,template).message)
             # print("End of scenery 5")
-        elif '6' in sys.argv[1]:
+        elif '06' in sys.argv[1]:
             print(this.scenery6(files,template).message)
             # print("End of scenery 6")
-        elif '7' in sys.argv[1]:
+        elif '07' in sys.argv[1]:
             print(this.scenery7(files,template).message)
             # print("End of scenery 7")
-        elif '8' in sys.argv[1]:
+        elif '08' in sys.argv[1]:
             print(this.scenery8(files,template).message)
             # print("End of scenery 8")
-        elif '9' in sys.argv[1]:
+        elif '09' in sys.argv[1]:
             print(this.scenery9(files,template).message)
             # print("End of scenery 9")
         elif '10.fsm' in sys.argv[1]:
@@ -1501,25 +1917,25 @@ if __name__ == '__main__':
             # 10.190.4.138	ROUTER  CellSite	MXPUEXIU0396BHCSRMOB01	7705-SAR8 v2
             print(this.scenery10(files,template).message)
             # print("End of scenery 10")
-        elif '11' in sys.argv[1]:
-            print(this.scenery11(files,template).message)
+        elif '11.fsm' in sys.argv[1]:
+            print(this.scenery10(files,template).message)
             # print("End of scenery 11")
-        elif '12' in sys.argv[1]:
+        elif '12.fsm' in sys.argv[1]:
             print(this.scenery12(files,template).message)
             # print("End of scenery 12")
-        elif '13' in sys.argv[1]:
+        elif '13.fsm' in sys.argv[1]:
             print(this.scenery13(files,template).message)
             # print("End of scenery 13")
-        elif '14' in sys.argv[1]:
+        elif '14.fsm' in sys.argv[1]:
             print(this.scenery14(files,template).message)
             # print("End of scenery 14")
-        elif '15' in sys.argv[1]:
+        elif '15.fsm' in sys.argv[1]:
             print(this.scenery15(files,template).message)
             # print("End of scenery 15")
-        elif '16' in sys.argv[1]:
+        elif '16.fsm' in sys.argv[1]:
             print(this.scenery16(files,template).message)
             # print("End of scenery 16")
-        elif '17' in sys.argv[1]:
+        elif '17.fsm' in sys.argv[1]:
             print(this.scenery17(files,template).message)
             # print("End of scenery 17")
         else:
