@@ -1,0 +1,1 @@
+sysname,chassis,source_ip,l3vpn,service_id,service_name,customer_id,interface,vpls,sap,ingress_qos_id,egress_qos_id,port,policy,card,buffer_min,buffer_max,resv_min,resv_max,shutdown
