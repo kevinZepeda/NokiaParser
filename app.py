@@ -87,7 +87,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
 
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
@@ -170,26 +170,7 @@ class Nokia(object):
                     i["qos"],
                     i["queue-group"]
                 ])
-                if console:
-                    print([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["interface"],
-                    '' if i["port"] not in lag_ports else i["port"][4:],
-                    port,
-                    '' if port not in port_types else port_types[port],
-                    '' if port not in queue_group_name else queue_group_name[port],
-                    i["address"],
-                    '' if i['interface'] not in isis_list else isis_list[i['interface']],
-                    1 if i["interface"] in mpls_interfaces else 0,
-                    1 if i["interface"] in rsvp_interfaces else 0,
-                    '' if port not in slope_policy_list else slope_policy_list[port],
-                    '' if port not in egress_policy_list else egress_policy_list[port],
-                    '' if port not in queue_policy_list else queue_policy_list[port],
-                    i["qos"],
-                    i["queue-group"]
-                    ])
+
 
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_1_2.csv', 'w')
@@ -239,7 +220,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
@@ -328,30 +309,7 @@ class Nokia(object):
                         '' if card == '' else card["resv_max"],
                         '' if card == '' else card["shutdown"]
                         ])
-                        if console:
-                            print([
-                            i["sysname"],
-                            i["chassis"],
-                            i["source_ip"],
-                            i["l3vpn"],
-                            i["service_id"],
-                            i["service_name"],
-                            i["customer_id"],
-                            i["interface"],
-                            i["bgp"],
-                            i["neighbor"],
-                            i['sap'],
-                            i["ingress_qos_id"],
-                            i["egress_qos_id"],
-                            port,
-                            '' if port not in ports_policys else ports_policys[port],
-                            port[:1],
-                            '' if card == '' else card["buffer_min"],
-                            '' if card == '' else card["buffer_max"],
-                            '' if card == '' else card["resv_min"],
-                            '' if card == '' else card["resv_max"],
-                            '' if card == '' else card["shutdown"]
-                            ])
+
                     pass
                 else:
                     pass
@@ -405,7 +363,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
 
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
@@ -488,26 +446,7 @@ class Nokia(object):
                     i["qos"],
                     i["queue-group"]
                 ])
-                if console:
-                    print([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["interface"],
-                    '' if i["port"] not in lag_ports else i["port"][4:],
-                    port,
-                    '' if port not in port_types else port_types[port],
-                    '' if port not in queue_group_name else queue_group_name[port],
-                    i["address"],
-                    '' if i['interface'] not in isis_list else isis_list[i['interface']],
-                    1 if i["interface"] in mpls_interfaces else 0,
-                    1 if i["interface"] in rsvp_interfaces else 0,
-                    '' if port not in slope_policy_list else slope_policy_list[port],
-                    '' if port not in egress_policy_list else egress_policy_list[port],
-                    '' if port not in queue_policy_list else queue_policy_list[port],
-                    i["qos"],
-                    i["queue-group"]
-                    ])
+
 
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_4.csv', 'w')
@@ -557,7 +496,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
@@ -641,28 +580,7 @@ class Nokia(object):
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
                 ])
-                if console:
-                    print([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["l3vpn"],
-                    i["service_id"],
-                    i["service_name"],
-                    i["customer_id"],
-                    i["interface"],
-                    i['sap'],
-                    i["ingress_qos_id"],
-                    i["egress_qos_id"],
-                    port,
-                    '' if port not in ports_policys else ports_policys[port],
-                    port[:1],
-                    '' if card == '' else card["buffer_min"],
-                    '' if card == '' else card["buffer_max"],
-                    '' if card == '' else card["resv_min"],
-                    '' if card == '' else card["resv_max"],
-                    '' if card == '' else card["shutdown"]
-                    ])
+
 
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_5.csv', 'w')
@@ -716,7 +634,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
@@ -776,7 +694,7 @@ class Nokia(object):
                     sap = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
                 else:
                     lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
-                    sap = lags[lag]
+                    sap = '' if lag not in lags else lags[lag]
                 card = '' if sap[:1] not in cards else cards[sap[:1]]
                 data.append([
                     i["sysname"],
@@ -798,27 +716,7 @@ class Nokia(object):
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
                     ])
-                if console:
-                    print([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["l2vpn"],
-                    i["service_id"],
-                    i["service_name"],
-                    i["customer_id"],
-                    i['sap'],
-                    i["ingress_qos_id"],
-                    i["egress_qos_id"],
-                    sap,
-                    '' if sap not in ports_policys else ports_policys[sap],
-                    sap[:1],
-                    '' if card == '' else card["buffer_min"],
-                    '' if card == '' else card["buffer_max"],
-                    '' if card == '' else card["resv_min"],
-                    '' if card == '' else card["resv_max"],
-                    '' if card == '' else card["shutdown"]
-                    ])
+
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_6.csv', 'w')
             with myFile:
@@ -866,7 +764,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
@@ -922,7 +820,7 @@ class Nokia(object):
                     sap = i["sap"][:i["sap"].find(":")] if ":" in i["sap"] else i["sap"]
                 else:
                     lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
-                    sap = lags[lag]
+                    sap = '' if lag not in lags else lags[lag]
                 card = '' if sap[:1] not in cards else cards[sap[:1]]
                 data.append([
                     i["sysname"],
@@ -945,28 +843,7 @@ class Nokia(object):
                     '' if card == '' else card["resv_max"],
                     '' if card == '' else card["shutdown"]
                     ])
-                if console:
-                    print([
-                    i["sysname"],
-                    i["chassis"],
-                    i["source_ip"],
-                    i["l2vpn"],
-                    i["service_id"],
-                    i["service_name"],
-                    i["customer_id"],
-                    i["spoke_spd_id"],
-                    i["spoke_svc_id"],
-                    i['sap'],
-                    '' if i['spoke_spd_id'] not in sdp_ids else sdp_ids[i['spoke_spd_id']],
-                    sap,
-                    '' if sap not in ports_policys else ports_policys[sap],
-                    sap[:1],
-                    '' if card == '' else card["buffer_min"],
-                    '' if card == '' else card["buffer_max"],
-                    '' if card == '' else card["resv_min"],
-                    '' if card == '' else card["resv_max"],
-                    '' if card == '' else card["shutdown"]
-                    ])
+
         if console:
             myFile = open('Nokia_'+str(len(files))+'_files_scenery_7.csv', 'w')
             with myFile:
@@ -1016,7 +893,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
@@ -1108,28 +985,7 @@ class Nokia(object):
                         '' if card == '' else card["resv_max"],
                         '' if card == '' else card["shutdown"]
                         ])
-                    if console:
-                        print([
-                        i["sysname"],
-                        i["chassis"],
-                        i["source_ip"],
-                        i["l3vpn"],
-                        i["service_id"],
-                        i["service_name"],
-                        i["customer_id"],
-                        i["interface"],
-                        match['sap'],
-                        match['ingress'],
-                        match['egress'],
-                        port,
-                        '' if port not in ports_policys else ports_policys[port],
-                        port[:1],
-                        '' if card == '' else card["buffer_min"],
-                        '' if card == '' else card["buffer_max"],
-                        '' if card == '' else card["resv_min"],
-                        '' if card == '' else card["resv_max"],
-                        '' if card == '' else card["shutdown"]
-                        ])
+
                 except Exception as e:
                     pass
 
@@ -1184,7 +1040,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
             input_file.close()
