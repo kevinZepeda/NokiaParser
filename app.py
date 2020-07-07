@@ -1199,7 +1199,7 @@ class Nokia(object):
         ###############  Template #######################
         template = open(temp)
         ############# File Processor ##########################
-        for filename in files:
+        for filename in tqdm(files):
 
             input_file = open(filename, encoding='utf-8')
             raw_text_data = input_file.read()
@@ -1281,26 +1281,6 @@ class Nokia(object):
                                 card['network'],
                                 card['access']
                             ])
-                            if console:
-                                print([
-                                    i["sysname"],
-                                    i["chassis"],
-                                    i["source_ip"],
-                                    i["interface"],
-                                    '' if i["port"] not in lag_ports else i["port"][4:],
-                                    port,
-                                    '' if port not in port_types else port_types[port],
-                                    i["address"],
-                                    0,
-                                    1 if i["interface"] in mpls_interfaces else 0,
-                                    1 if i["interface"] in rsvp_interfaces else 0,
-                                    '' if port not in queue_policy_list else queue_policy_list[port],
-                                    100,
-                                    card['card'],
-                                    card['mda'],
-                                    card['network'],
-                                    card['access']
-                                ])
                     else:
                         pass
 
