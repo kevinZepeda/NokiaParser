@@ -40,6 +40,7 @@ Chassis
 Service
   ^\s{8}sdp ${sdp_id} mpls create -> Sdp
   ^\s{8}${l3vpn} ${service_id} name "${service_name}" customer ${customer_id} create -> Vpn
+  ^\s{8}${l3vpn} ${service_id} customer ${customer_id} create -> Vpn
   ^\s{4}exit -> Start
 
 Sdp
@@ -100,5 +101,5 @@ MdaNetwork
 MdaAccess
   ^\s{20}fabric-policy ${fabric_access}
   ^\s{12}exit -> Mda
-  
+
 EOF

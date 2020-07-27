@@ -1261,7 +1261,7 @@ class Nokia(object):
                 for card in cards:
                     if i['interface'] in isis_list:
                         port = i["port"] if i["port"] not in lag_ports else lag_ports[i['port']]
-                        if port[:1] == card['card']:
+                        if port[2:-2] == card['mda']:
                             data.append([
                                 i["sysname"],
                                 i["chassis"],
@@ -1407,7 +1407,7 @@ class Nokia(object):
                     lag = i["sap"][4:i["sap"].find(":")] if ":" in i["sap"] else i["sap"][4:]
                     port = '' if lag not in lags else lags[lag]
                 for card in cards:
-                    if port[:1] == card['card']:
+                    if port[2:-2] == card['mda']:
                         data.append([
                             i["sysname"],
                             i["chassis"],
@@ -1438,7 +1438,6 @@ class Nokia(object):
 
         template.close()
         if console:
-            print(file_list)
         return Get(200,'All files were processed correctly',data)
 
     def scenery13(self,files,temp):
@@ -1550,7 +1549,7 @@ class Nokia(object):
                     sap = '' if lag not in lags else lags[lag]
 
                 for card in cards:
-                    if sap[:1] == card['card']:
+                    if sap[2:-2] == card['mda']:
                         data.append([
                             i["sysname"],
                             i["chassis"],
@@ -1677,7 +1676,7 @@ class Nokia(object):
                     sap = '' if lag not in lags else lags[lag]
 
                 for card in cards:
-                    if sap[:1] == card['card']:
+                    if sap[2:-2] == card['mda']:
                         data.append([
                         i["sysname"],
                         i["chassis"],
@@ -1824,7 +1823,7 @@ class Nokia(object):
                         port = '' if lag not in lags else lags[lag]
 
                     for card in cards:
-                        if port[:1] == card['card']:
+                        if port[2:-2] == card['mda']:
                             data.append([
                                 i["sysname"],
                                 i["chassis"],
@@ -1981,7 +1980,7 @@ class Nokia(object):
                                 port = '' if lag not in lags else lags[lag]
 
                             for card in cards:
-                                if port[:1] == card['card']:
+                                if port[2:-2] == card['mda']:
                                     data.append([
                                         i["sysname"],
                                         i["chassis"],
@@ -2080,7 +2079,7 @@ if __name__ == '__main__':
         elif '16.fsm' in sys.argv[1]:
             print(this.scenery16(files,template).message)
             # print("End of scenery 16")
-        elif '17.fsm' in sys.argv[1]:
+        elif '17_01.fsm' in sys.argv[1]:
             print(this.scenery17(files,template).message)
             # print("End of scenery 17")
         else:
