@@ -1,0 +1,42 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}slope-policy "7x50-IPMEAN_ntw_wred" create -> Slope
+  ^\s{4}exit -> Start
+
+Slope
+  ^\s{12}description "${description}" -> Record
+  ^\s{12}high-slope -> High
+  ^\s{12}low-slope -> Low
+  ^\s{8}exit -> Qos
+
+High
+  ^\s{16}start-avg 70 -> Record
+  ^\s{16}max-avg 90 -> Record
+  ^\s{16}max-prob 80 -> Record
+  ^\s{16}no shutdown -> Record
+  ^\s{12}exit -> Slope
+
+Low
+  ^\s{16}start-avg 50 -> Record
+  ^\s{16}max-avg 75 -> Record
+  ^\s{16}max-prob 80 -> Record
+  ^\s{16}no shutdown -> Record
+  ^\s{12} -> Slope
+
+EOF

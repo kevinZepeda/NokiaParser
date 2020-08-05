@@ -2131,8 +2131,125 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['Sysname','model','source','network','description']]
-        
+        data = [['Sysname',
+                'model',
+                'source',
+                'network',
+                'description',
+                'network1000_create',
+                'network1000_description',
+                'network1000_ingress',
+                'network1000_ingress_dscp_be',
+                'network1000_ingress_dscp_ef',
+                'network1000_ingress_dscp_cp9',
+                'network1000_ingress_dscp_cs1',
+                'network1000_ingress_dscp_cs2',
+                'network1000_ingress_dscp_cs3',
+                'network1000_ingress_dscp_cs4',
+                'network1000_ingress_dscp_cs5',
+                'network1000_ingress_dscp_nc1',
+                'network1000_ingress_dscp_nc2',
+                'network1000_ingress_dscp_af11',
+                'network1000_ingress_dscp_af12',
+                'network1000_ingress_dscp_af13',
+                'network1000_ingress_dscp_af21',
+                'network1000_ingress_dscp_af22',
+                'network1000_ingress_dscp_af23',
+                'network1000_ingress_dscp_af31',
+                'network1000_ingress_dscp_af32',
+                'network1000_ingress_dscp_af33',
+                'network1000_ingress_dscp_af41',
+                'network1000_ingress_dscp_af42',
+                'network1000_ingress_dscp_af43',
+                'network1000_ingress_exp_be',
+                'network1000_ingress_exp_l2',
+                'network1000_ingress_exp_af',
+                'network1000_ingress_exp_l1',
+                'network1000_ingress_exp_h2',
+                'network1000_ingress_exp_ef',
+                'network1000_ingress_exp_nc_in',
+                'network1000_ingress_exp_nc_out',
+                'network1000_ingress_dot1p_be',
+                'network1000_ingress_dot1p_l2',
+                'network1000_ingress_dot1p_af',
+                'network1000_ingress_dot1p_l1',
+                'network1000_ingress_dot1p_h2',
+                'network1000_ingress_dot1p_ef',
+                'network1000_ingress_dot1p_nc',
+                'network1000_egress',
+                'network1000_egress_no_remarking',
+                'network1000_egress_fc_af',
+                'network1000_egress_fc_af_dscp_in',
+                'network1000_egress_fc_af_dscp_out',
+                'network1000_egress_fc_af_exp_in',
+                'network1000_egress_fc_af_exp_out',
+                'network1000_egress_fc_af_dot1p_in',
+                'network1000_egress_fc_af_dot1p_out',
+                'network1000_egress_fc_af_no_demark',
+                'network1000_egress_fc_af_port_redirect',
+                'network1000_egress_fc_be',
+                'network1000_egress_fc_be_dscp_in',
+                'network1000_egress_fc_be_dscp_out',
+                'network1000_egress_fc_be_exp_in',
+                'network1000_egress_fc_be_exp_out',
+                'network1000_egress_fc_be_dot1p_in',
+                'network1000_egress_fc_be_dot1p_out',
+                'network1000_egress_fc_be_no_demark',
+                'network1000_egress_fc_be_port_redirect',
+                'network1000_egress_fc_ef',
+                'network1000_egress_fc_ef_dscp_in',
+                'network1000_egress_fc_ef_dscp_out',
+                'network1000_egress_fc_ef_exp_in',
+                'network1000_egress_fc_ef_exp_out',
+                'network1000_egress_fc_ef_dot1p_in',
+                'network1000_egress_fc_ef_dot1p_out',
+                'network1000_egress_fc_ef_no_demark',
+                'network1000_egress_fc_ef_port_redirect',
+                'network1000_egress_fc_h1',
+                'network1000_egress_fc_h1_dscp_in',
+                'network1000_egress_fc_h1_dscp_out',
+                'network1000_egress_fc_h1_exp_in',
+                'network1000_egress_fc_h1_exp_out',
+                'network1000_egress_fc_h1_dot1p_in',
+                'network1000_egress_fc_h1_dot1p_out',
+                'network1000_egress_fc_h1_no_demark',
+                'network1000_egress_fc_h1_port_redirect',
+                'network1000_egress_fc_h2',
+                'network1000_egress_fc_h2_dscp_in',
+                'network1000_egress_fc_h2_dscp_out',
+                'network1000_egress_fc_h2_exp_in',
+                'network1000_egress_fc_h2_exp_out',
+                'network1000_egress_fc_h2_dot1p_in',
+                'network1000_egress_fc_h2_dot1p_out',
+                'network1000_egress_fc_h2_no_demark',
+                'network1000_egress_fc_h2_port_redirect',
+                'network1000_egress_fc_l1',
+                'network1000_egress_fc_l1_dscp_in',
+                'network1000_egress_fc_l1_dscp_out',
+                'network1000_egress_fc_l1_exp_in',
+                'network1000_egress_fc_l1_exp_out',
+                'network1000_egress_fc_l1_dot1p_in',
+                'network1000_egress_fc_l1_dot1p_out',
+                'network1000_egress_fc_l1_no_demark',
+                'network1000_egress_fc_l1_port_redirect',
+                'network1000_egress_fc_l2',
+                'network1000_egress_fc_l2_dscp_in',
+                'network1000_egress_fc_l2_dscp_out',
+                'network1000_egress_fc_l2_exp_in',
+                'network1000_egress_fc_l2_exp_out',
+                'network1000_egress_fc_l2_dot1p_in',
+                'network1000_egress_fc_l2_dot1p_out',
+                'network1000_egress_fc_l2_no_demark',
+                'network1000_egress_fc_l2_port_redirect',
+                'network1000_egress_fc_nc',
+                'network1000_egress_fc_nc_dscp_in',
+                'network1000_egress_fc_nc_dscp_out',
+                'network1000_egress_fc_nc_exp_in',
+                'network1000_egress_fc_nc_exp_out',
+                'network1000_egress_fc_nc_dot1p_in',
+                'network1000_egress_fc_nc_dot1p_out',
+                'network1000_egress_fc_nc_no_demark',
+                'network1000_egress_fc_nc_port_redirect']]
 
         ###############  Template #######################
         template = open(temp)
@@ -2157,7 +2274,121 @@ class Nokia(object):
                     fsm_results[0][1],
                     fsm_results[0][2],
                     fsm_results[0][3],
-                    fsm_results[0][4]
+                    fsm_results[0][4],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
                 ])
 
 
@@ -2204,8 +2435,64 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['Sysname','model','source','network','description']]
-        
+        data = [['Sysname',
+            'model',
+            'source',
+            'network',
+            'description',
+            'network11000_create',
+            'network11000_description',
+            'network11000_ingress',
+            'network11000_ingress_dscp_be',
+            'network11000_ingress_dscp_cs4',
+            'network11000_ingress_dscp_nc2',
+            'network11000_ingress_dscp_af11',
+            'network11000_ingress_dscp_af21',
+            'network11000_ingress_dscp_af31',
+            'network11000_ingress_exp_be',
+            'network11000_ingress_exp_be_2',
+            'network11000_ingress_exp_h2',
+            'network11000_ingress_exp_h2_2',
+            'network11000_ingress_exp_ef',
+            'network11000_ingress_exp_nc',
+            'network11000_egress',
+            'network11000_egress_remarking',
+            'network11000_egress_fc_be',
+            'network11000_egress_fc_be_dscp_in',
+            'network11000_egress_fc_be_dscp_out',
+            'network11000_egress_fc_be_lsp_in',
+            'network11000_egress_fc_be_lsp_out',
+            'network11000_egress_fc_be_dot1p_in',
+            'network11000_egress_fc_be_dot1p_out',
+            'network11000_egress_fc_be_no_demark',
+            'network11000_egress_fc_be_no_port_redirect',
+            'network11000_egress_fc_ef',
+            'network11000_egress_fc_ef_dscp_in',
+            'network11000_egress_fc_ef_dscp_out',
+            'network11000_egress_fc_ef_lsp_in',
+            'network11000_egress_fc_ef_lsp_out',
+            'network11000_egress_fc_ef_dot1p_in',
+            'network11000_egress_fc_ef_dot1p_out',
+            'network11000_egress_fc_ef_no_demark',
+            'network11000_egress_fc_ef_no_port_redirect',
+            'network11000_egress_fc_h2',
+            'network11000_egress_fc_h2_dscp_in',
+            'network11000_egress_fc_h2_dscp_out',
+            'network11000_egress_fc_h2_lsp_in',
+            'network11000_egress_fc_h2_lsp_out',
+            'network11000_egress_fc_h2_dot1p_in',
+            'network11000_egress_fc_h2_dot1p_out',
+            'network11000_egress_fc_h2_no_demark',
+            'network11000_egress_fc_h2_no_port_redirect',
+            'network11000_egress_fc_nc',
+            'network11000_egress_fc_nc_dscp_in',
+            'network11000_egress_fc_nc_dscp_out',
+            'network11000_egress_fc_nc_lsp_in',
+            'network11000_egress_fc_nc_lsp_out',
+            'network11000_egress_fc_nc_dot1p_in',
+            'network11000_egress_fc_nc_dot1p_out',
+            'network11000_egress_fc_nc_no_demark',
+            'network11000_egress_fc_nc_no_port_redirect',]]
 
         ###############  Template #######################
         template = open(temp)
@@ -2230,7 +2517,60 @@ class Nokia(object):
                     fsm_results[0][1],
                     fsm_results[0][2],
                     fsm_results[0][3],
-                    fsm_results[0][4]
+                    fsm_results[0][4],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
                 ])
 
 
@@ -2277,7 +2617,26 @@ class Nokia(object):
         """
         if len(files) < 1:
             return Get(404,'Files are empty',None)
-        data = [['Sysname','model','source','network','description']]
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'ipmean_standard_create',
+            'ipmean_standard_description',
+            'ipmean_standard_queue1_create',
+            'ipmean_standard_queue8_create',
+            'ipmean_standard_queue8_port_parent',
+            'ipmean_standard_queue8_rate_cir',
+            'ipmean_standard_queue8_mbs',
+            'ipmean_standard_queue8_cbs',
+            'ipmean_standard_queue9_create',
+            'ipmean_standard_queue9_mbs',
+            'ipmean_standard_queue9_fc_be_create',
+            'ipmean_standard_queue9_fc_be_multicast_queue',
+            'ipmean_standard_queue9_fc_be_queue',
+            'ipmean_standard_queue9_fc_nc_create',
+            'ipmean_standard_queue9_fc_nc_multicast_queue',
+            'ipmean_standard_queue9_fc_nc_queue',]]
         
 
         ###############  Template #######################
@@ -2296,15 +2655,28 @@ class Nokia(object):
             ############ Structure results ############
 
             # If fsm_results contains 10 that means all policies is in the file 
-            print(len(fsm_results))
-            input("sd")
             if len(fsm_results) == 10:
                 data.append([
                     fsm_results[0][0],
                     fsm_results[0][1],
                     fsm_results[0][2],
                     fsm_results[0][3],
-                    fsm_results[0][4]
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
                 ])
 
 
@@ -2317,6 +2689,662 @@ class Nokia(object):
         template.close()
 
         return Get(200,'All files were processed correctly',data)
+
+    def scenery17_5(self,files,temp):
+        """
+        Docstring for .scenery17_5files,templates)
+        file Processor for logs in scenery 17_5
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname','model','source','description''port_scheduler_network_create','port_scheduler_network_description']]
+
+        
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 1 that means all policies is in the file 
+            if len(fsm_results) == 1:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_5.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_6(self,files,temp):
+        """
+        Docstring for .scenery17_6files,templates)
+        file Processor for logs in scenery 17_6
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'queue_group_1g_create',
+            'queue_group_1g_description',
+            'queue_group_1g_queue1_create',
+            'queue_group_1g_queue1_port_parent',
+            'queue_group_1g_queue1_percent_rate',
+            'queue_group_1g_queue1_packet_byte',
+            'queue_group_1g_queue2_create',
+            'queue_group_1g_queue2_port_parent',
+            'queue_group_1g_queue2_percent_rate',
+            'queue_group_1g_queue2_packet_byte',
+            'queue_group_1g_queue3_create',
+            'queue_group_1g_queue3_port_parent',
+            'queue_group_1g_queue3_percent_rate',
+            'queue_group_1g_queue3_packet_byte',
+            'queue_group_1g_queue4_create',
+            'queue_group_1g_queue4_port_parent',
+            'queue_group_1g_queue4_percent_rate',
+            'queue_group_1g_queue4_packet_byte',
+            'queue_group_1g_queue5_create',
+            'queue_group_1g_queue5_port_parent',
+            'queue_group_1g_queue5_percent_rate',
+            'queue_group_1g_queue5_cbs',
+            'queue_group_1g_queue5_mbs',
+            'queue_group_1g_queue5_packet_byte',
+            'queue_group_1g_queue6_create',
+            'queue_group_1g_queue6_port_parent',
+            'queue_group_1g_queue6_percent_rate',
+            'queue_group_1g_queue6_cbs',
+            'queue_group_1g_queue6_mbs',
+            'queue_group_1g_queue6_packet_byte',
+            'queue_group_1g_queue8_create',
+            'queue_group_1g_queue8_port_parent',
+            'queue_group_1g_queue8_percent_rate',
+            'queue_group_1g_queue8_packet_byte',
+            'queue_group_1g_fc_af_create',
+            'queue_group_1g_fc_af_queue',
+            'queue_group_1g_fc_be_create',
+            'queue_group_1g_fc_be_queue',
+            'queue_group_1g_fc_ef_create',
+            'queue_group_1g_fc_ef_queue',
+            'queue_group_1g_fc_h2_create',
+            'queue_group_1g_fc_h2_queue',
+            'queue_group_1g_fc_l1_create',
+            'queue_group_1g_fc_l1_queue',
+            'queue_group_1g_fc_l2_create',
+            'queue_group_1g_fc_l2_queue',
+            'queue_group_1g_fc_nc_create',
+            'queue_group_1g_fc_nc_queue']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 32 that means all policies is in the file 
+            if len(fsm_results) == 32:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_6.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_7(self,files,temp):
+        """
+        Docstring for .scenery17_7files,templates)
+        file Processor for logs in scenery 17_7
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'queue_group_1g_create',
+            'queue_group_1g_description',
+            'queue_group_1g_queue1_create',
+            'queue_group_1g_queue1_port_parent',
+            'queue_group_1g_queue1_percent_rate',
+            'queue_group_1g_queue1_packet_byte',
+            'queue_group_1g_queue2_create',
+            'queue_group_1g_queue2_port_parent',
+            'queue_group_1g_queue2_percent_rate',
+            'queue_group_1g_queue2_packet_byte',
+            'queue_group_1g_queue3_create',
+            'queue_group_1g_queue3_port_parent',
+            'queue_group_1g_queue3_percent_rate',
+            'queue_group_1g_queue3_packet_byte',
+            'queue_group_1g_queue4_create',
+            'queue_group_1g_queue4_port_parent',
+            'queue_group_1g_queue4_percent_rate',
+            'queue_group_1g_queue4_packet_byte',
+            'queue_group_1g_queue5_create',
+            'queue_group_1g_queue5_port_parent',
+            'queue_group_1g_queue5_percent_rate',
+            'queue_group_1g_queue5_cbs',
+            'queue_group_1g_queue5_mbs',
+            'queue_group_1g_queue5_packet_byte',
+            'queue_group_1g_queue6_create',
+            'queue_group_1g_queue6_port_parent',
+            'queue_group_1g_queue6_percent_rate',
+            'queue_group_1g_queue6_cbs',
+            'queue_group_1g_queue6_mbs',
+            'queue_group_1g_queue6_packet_byte',
+            'queue_group_1g_queue8_create',
+            'queue_group_1g_queue8_port_parent',
+            'queue_group_1g_queue8_percent_rate',
+            'queue_group_1g_queue8_packet_byte',
+            'queue_group_1g_fc_af_create',
+            'queue_group_1g_fc_af_queue',
+            'queue_group_1g_fc_be_create',
+            'queue_group_1g_fc_be_queue',
+            'queue_group_1g_fc_ef_create',
+            'queue_group_1g_fc_ef_queue',
+            'queue_group_1g_fc_h2_create',
+            'queue_group_1g_fc_h2_queue',
+            'queue_group_1g_fc_l1_create',
+            'queue_group_1g_fc_l1_queue',
+            'queue_group_1g_fc_l2_create',
+            'queue_group_1g_fc_l2_queue',
+            'queue_group_1g_fc_nc_create',
+            'queue_group_1g_fc_nc_queue']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 32 that means all policies is in the file 
+            if len(fsm_results) == 32:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_7.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_8(self,files,temp):
+        """
+        Docstring for .scenery17_8(files,templates)
+        file Processor for logs in scenery 17_8
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'queue_group_1g_create',
+            'queue_group_1g_description',
+            'queue_group_1g_queue1_create',
+            'queue_group_1g_queue1_port_parent',
+            'queue_group_1g_queue1_percent_rate',
+            'queue_group_1g_queue1_packet_byte',
+            'queue_group_1g_queue2_create',
+            'queue_group_1g_queue2_port_parent',
+            'queue_group_1g_queue2_percent_rate',
+            'queue_group_1g_queue2_packet_byte',
+            'queue_group_1g_queue3_create',
+            'queue_group_1g_queue3_port_parent',
+            'queue_group_1g_queue3_percent_rate',
+            'queue_group_1g_queue3_packet_byte',
+            'queue_group_1g_queue4_create',
+            'queue_group_1g_queue4_port_parent',
+            'queue_group_1g_queue4_percent_rate',
+            'queue_group_1g_queue4_packet_byte',
+            'queue_group_1g_queue5_create',
+            'queue_group_1g_queue5_port_parent',
+            'queue_group_1g_queue5_percent_rate',
+            'queue_group_1g_queue5_cbs',
+            'queue_group_1g_queue5_mbs',
+            'queue_group_1g_queue5_packet_byte',
+            'queue_group_1g_queue6_create',
+            'queue_group_1g_queue6_port_parent',
+            'queue_group_1g_queue6_percent_rate',
+            'queue_group_1g_queue6_cbs',
+            'queue_group_1g_queue6_mbs',
+            'queue_group_1g_queue6_packet_byte',
+            'queue_group_1g_queue8_create',
+            'queue_group_1g_queue8_port_parent',
+            'queue_group_1g_queue8_percent_rate',
+            'queue_group_1g_queue8_packet_byte',
+            'queue_group_1g_fc_af_create',
+            'queue_group_1g_fc_af_queue',
+            'queue_group_1g_fc_be_create',
+            'queue_group_1g_fc_be_queue',
+            'queue_group_1g_fc_ef_create',
+            'queue_group_1g_fc_ef_queue',
+            'queue_group_1g_fc_h2_create',
+            'queue_group_1g_fc_h2_queue',
+            'queue_group_1g_fc_l1_create',
+            'queue_group_1g_fc_l1_queue',
+            'queue_group_1g_fc_l2_create',
+            'queue_group_1g_fc_l2_queue',
+            'queue_group_1g_fc_nc_create',
+            'queue_group_1g_fc_nc_queue']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 32 that means all policies is in the file 
+            if len(fsm_results) == 32:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_8.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_9(self,files,temp):
+        """
+        Docstring for .scenery17_9(files,templates)
+        file Processor for logs in scenery 17_9
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 9 that means all policies is in the file 
+            if len(fsm_results) == 9:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3]
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_9.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+
 
 if __name__ == '__main__':
     console = True
@@ -2334,25 +3362,25 @@ if __name__ == '__main__':
         if '01.fsm' in sys.argv[1] or '02.fsm' in sys.argv[1]:
             print(this.scenery1(files,template).message)
             # print("End of scenery 1 - 2")
-        elif '03' in sys.argv[1]:
+        elif '03.fsm' in sys.argv[1]:
             print(this.scenery3(files,template).message)
             # print("End of scenery 3")
-        elif '04' in sys.argv[1]:
+        elif '04.fsm' in sys.argv[1]:
             print(this.scenery4(files,template).message)
             # print("End of scenery 4")
-        elif '05' in sys.argv[1]:
+        elif '05.fsm' in sys.argv[1]:
             print(this.scenery5(files,template).message)
             # print("End of scenery 5")
-        elif '06' in sys.argv[1]:
+        elif '06.fsm' in sys.argv[1]:
             print(this.scenery6(files,template).message)
             # print("End of scenery 6")
-        elif '07' in sys.argv[1]:
+        elif '07.fsm' in sys.argv[1]:
             print(this.scenery7(files,template).message)
             # print("End of scenery 7")
-        elif '08' in sys.argv[1]:
+        elif '08.fsm' in sys.argv[1]:
             print(this.scenery8(files,template).message)
             # print("End of scenery 8")
-        elif '09' in sys.argv[1]:
+        elif '09.fsm' in sys.argv[1]:
             print(this.scenery9(files,template).message)
             # print("End of scenery 9")
         elif '10.fsm' in sys.argv[1]:
@@ -2390,6 +3418,24 @@ if __name__ == '__main__':
             # print("End of scenery 17")
         elif '17_4.fsm' in sys.argv[1]:
             print(this.scenery17_4(files,template).message)
+            # print("End of scenery 17")
+        elif '17_5.fsm' in sys.argv[1]:
+            print(this.scenery17_5(files,template).message)
+            # print("End of scenery 17")
+        elif '17_6.fsm' in sys.argv[1]:
+            print(this.scenery17_6(files,template).message)
+            # print("End of scenery 17")
+        elif '17_7.fsm' in sys.argv[1]:
+            print(this.scenery17_7(files,template).message)
+            # print("End of scenery 17")
+        elif '17_8.fsm' in sys.argv[1]:
+            print(this.scenery17_8(files,template).message)
+            # print("End of scenery 17")
+        elif '17_9.fsm' in sys.argv[1]:
+            print(this.scenery17_9(files,template).message)
+            # print("End of scenery 17")
+        elif '17_9.fsm' in sys.argv[1]:
+            print(this.scenery17_9(files,template).message)
             # print("End of scenery 17")
         else:
             print("We can't find this option or template isn't to this tool")
