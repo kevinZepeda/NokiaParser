@@ -1,0 +1,50 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}network-queue "7x50-IPMEAN:standard" create -> Network
+
+Network
+  ^\s{12}description "${description}"
+  ^\s{12}queue 1 auto-expedite create -> Record
+  ^\s{12}queue 8 expedite create -> Queue8
+  ^\s{12}queue 9 multipoint auto-expedite create -> Queue9
+  ^\s{12}fc be create -> Fcbe
+  ^\s{12}fc nc create -> Fcnc
+
+Queue8
+  ^\s{16}port-parent level 8 weight 1 cir-level 8 cir-weight 0 -> Record
+  ^\s{16}rate 100 cir 2 fir 0 -> Record
+  ^\s{16}mbs 15 -> Record
+  ^\s{16}cbs 3 -> Record
+  ^\s{12}exit -> Network
+
+Queue9
+  ^\s{16}mbs 50 -> Record
+  ^\s{12}exit -> Network
+
+Fcbe
+  ^\s{16}multicast-queue 9 -> Record
+  ^\s{16}queue 1 -> Record
+  ^\s{12}exit -> Network
+
+Fcnc
+  ^\s{16}multicast-queue 9 -> Record
+  ^\s{16}queue 8 -> Record
+  ^\s{12}exit -> Network
+
+EOF

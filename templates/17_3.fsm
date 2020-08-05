@@ -1,0 +1,98 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value network (\S+)
+Value description (\S+)
+Value test (\S+)
+
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}network 11000 name "${network}" create -> Network
+  ^\s{4}exit -> Start
+
+Network
+  ^\s{12}description "${description}"
+  ^\s{12}ingress -> Ingress
+  ^\s{12}egress -> Egress
+  ^\s{8}exit -> Qos
+
+Ingress
+  ^\s{16}dscp be fc be profile out -> Record
+  ^\s{16}dscp cs4 fc ef profile out -> Record
+  ^\s{16}dscp nc2 fc nc profile out -> Record
+  ^\s{16}dscp af11 fc be profile out -> Record
+  ^\s{16}dscp af21 fc h2 profile out -> Record
+  ^\s{16}dscp af31 fc h2 profile out -> Record
+  ^\s{16}lsp-exp 0 fc be profile out -> Record
+  ^\s{16}lsp-exp 2 fc be profile out -> Record
+  ^\s{16}lsp-exp 3 fc h2 profile out -> Record
+  ^\s{16}lsp-exp 4 fc h2 profile out -> Record
+  ^\s{16}lsp-exp 5 fc ef profile out -> Record
+  ^\s{16}lsp-exp 7 fc nc profile out -> Record
+  ^\s{12}exit -> Network
+
+Egress
+  ^\s{16}remarking -> Record
+  ^\s{16}fc be -> Fcbe
+  ^\s{16}fc ef -> Fcef
+  ^\s{16}fc h2 -> Fch2
+  ^\s{16}fc nc -> Fcnc
+  ^\s{12}exit -> Network
+
+Fcbe
+  ^\s{20}dscp-in-profile be -> Record
+  ^\s{20}dscp-out-profile be -> Record
+  ^\s{20}lsp-exp-in-profile 0 -> Record
+  ^\s{20}lsp-exp-out-profile 0 -> Record
+  ^\s{20}dot1p-in-profile 0 -> Record
+  ^\s{20}dot1p-out-profile 0 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}no port-redirect-group -> Record
+  ^\s{16}exit -> Egress
+
+Fcef
+  ^\s{20}dscp-in-profile cs4 -> Record
+  ^\s{20}dscp-out-profile cs4 -> Record
+  ^\s{20}lsp-exp-in-profile 5 -> Record
+  ^\s{20}lsp-exp-out-profile 5 -> Record
+  ^\s{20}dot1p-in-profile 5 -> Record
+  ^\s{20}dot1p-out-profile 5 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}no port-redirect-group -> Record
+  ^\s{16}exit -> Egress
+
+Fch2
+  ^\s{20}dscp-in-profile af31 -> Record
+  ^\s{20}dscp-out-profile af31 -> Record
+  ^\s{20}lsp-exp-in-profile 4 -> Record
+  ^\s{20}lsp-exp-out-profile 4 -> Record
+  ^\s{20}dot1p-in-profile 4 -> Record
+  ^\s{20}dot1p-out-profile 4 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}no port-redirect-group -> Record
+  ^\s{16}exit -> Egress
+
+Fcnc
+  ^\s{20}dscp-in-profile nc2 -> Record
+  ^\s{20}dscp-out-profile nc2 -> Record
+  ^\s{20}lsp-exp-in-profile 7 -> Record
+  ^\s{20}lsp-exp-out-profile 7 -> Record
+  ^\s{20}dot1p-in-profile 7 -> Record
+  ^\s{20}dot1p-out-profile 7 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}no port-redirect-group -> Record
+  ^\s{16}exit -> Egress
+
+EOF

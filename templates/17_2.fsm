@@ -1,0 +1,173 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value network (\S+)
+Value description (\S+)
+
+
+
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}network 1000 name "${network}" create -> Network
+  ^\s{4}exit -> Start
+
+Network
+  ^\s{12}description "${description}"
+  ^\s{12}ingress -> Ingress
+  ^\s{12}egress -> Egress
+  ^\s{8}exit -> Qos
+
+Ingress
+  ^\s{16}dscp be fc be profile out -> Record
+  ^\s{16}dscp ef fc ef profile in -> Record
+  ^\s{16}dscp cp9 fc l2 profile out -> Record
+  ^\s{16}dscp cs1 fc l2 profile in -> Record
+  ^\s{16}dscp cs2 fc af profile in -> Record
+  ^\s{16}dscp cs3 fc l1 profile in -> Record
+  ^\s{16}dscp cs4 fc h2 profile in -> Record
+  ^\s{16}dscp cs5 fc nc profile in -> Record
+  ^\s{16}dscp nc1 fc nc profile in -> Record
+  ^\s{16}dscp nc2 fc nc profile in -> Record
+  ^\s{16}dscp af11 fc l2 profile in -> Record
+  ^\s{16}dscp af12 fc l2 profile in -> Record
+  ^\s{16}dscp af13 fc l2 profile out -> Record
+  ^\s{16}dscp af21 fc af profile in -> Record
+  ^\s{16}dscp af22 fc af profile in -> Record
+  ^\s{16}dscp af23 fc af profile out -> Record
+  ^\s{16}dscp af31 fc l1 profile in -> Record
+  ^\s{16}dscp af32 fc l1 profile in -> Record
+  ^\s{16}dscp af33 fc l1 profile out -> Record
+  ^\s{16}dscp af41 fc h2 profile in -> Record
+  ^\s{16}dscp af42 fc h2 profile in -> Record
+  ^\s{16}dscp af43 fc h2 profile in -> Record
+  ^\s{16}lsp-exp 0 fc be profile out -> Record
+  ^\s{16}lsp-exp 1 fc l2 profile in -> Record
+  ^\s{16}lsp-exp 2 fc af profile in -> Record
+  ^\s{16}lsp-exp 3 fc l1 profile in -> Record
+  ^\s{16}lsp-exp 4 fc h2 profile in -> Record
+  ^\s{16}lsp-exp 5 fc ef profile in -> Record
+  ^\s{16}lsp-exp 6 fc nc profile in -> Record
+  ^\s{16}lsp-exp 7 fc nc profile out -> Record
+  ^\s{16}dot1p 0 fc be profile out -> Record
+  ^\s{16}dot1p 1 fc l2 profile in -> Record
+  ^\s{16}dot1p 2 fc af profile in -> Record
+  ^\s{16}dot1p 3 fc l1 profile in -> Record
+  ^\s{16}dot1p 4 fc h2 profile in -> Record
+  ^\s{16}dot1p 5 fc ef profile in -> Record
+  ^\s{16}dot1p 6 fc nc profile in -> Record
+  ^\s{12}exit -> Network
+
+Egress
+  ^\s{16}no remarking -> Record
+  ^\s{16}fc af -> Fcaf
+  ^\s{16}fc be -> Fcbe
+  ^\s{16}fc ef -> Fcef
+  ^\s{16}fc h1 -> Fch1
+  ^\s{16}fc h2 -> Fch2
+  ^\s{16}fc l1 -> Fcl1
+  ^\s{16}fc l2 -> Fcl2
+  ^\s{16}fc nc -> Fcnc
+  ^\s{12}exit -> Network
+
+Fcaf
+  ^\s{20}dscp-in-profile af22 -> Record
+  ^\s{20}dscp-out-profile af23 -> Record
+  ^\s{20}lsp-exp-in-profile 2 -> Record
+  ^\s{20}lsp-exp-out-profile 2 -> Record
+  ^\s{20}dot1p-in-profile 2 -> Record
+  ^\s{20}dot1p-out-profile 2 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 3 -> Record
+  ^\s{16}exit -> Egress
+
+Fcbe
+  ^\s{20}dscp-in-profile be -> Record
+  ^\s{20}dscp-out-profile be -> Record
+  ^\s{20}lsp-exp-in-profile 0 -> Record
+  ^\s{20}lsp-exp-out-profile 0 -> Record
+  ^\s{20}dot1p-in-profile 0 -> Record
+  ^\s{20}dot1p-out-profile 0 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 1 -> Record
+  ^\s{16}exit -> Egress
+
+Fcef
+  ^\s{20}dscp-in-profile ef -> Record
+  ^\s{20}dscp-out-profile ef -> Record
+  ^\s{20}lsp-exp-in-profile 5 -> Record
+  ^\s{20}lsp-exp-out-profile 5 -> Record
+  ^\s{20}dot1p-in-profile 5 -> Record
+  ^\s{20}dot1p-out-profile 5 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 6 -> Record
+  ^\s{16}exit -> Egress
+
+Fch1
+  ^\s{20}dscp-in-profile nc1 -> Record
+  ^\s{20}dscp-out-profile nc1 -> Record
+  ^\s{20}lsp-exp-in-profile 6 -> Record
+  ^\s{20}lsp-exp-out-profile 6 -> Record
+  ^\s{20}dot1p-in-profile 6 -> Record
+  ^\s{20}dot1p-out-profile 6 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}no port-redirect-group -> Record
+  ^\s{16}exit -> Egress
+
+Fch2
+  ^\s{20}dscp-in-profile af41 -> Record
+  ^\s{20}dscp-out-profile af41 -> Record
+  ^\s{20}lsp-exp-in-profile 4 -> Record
+  ^\s{20}lsp-exp-out-profile 4 -> Record
+  ^\s{20}dot1p-in-profile 4 -> Record
+  ^\s{20}dot1p-out-profile 4 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 5 -> Record
+  ^\s{16}exit -> Egress
+
+Fcl1
+  ^\s{20}dscp-in-profile af32 -> Record
+  ^\s{20}dscp-out-profile af33 -> Record
+  ^\s{20}lsp-exp-in-profile 3 -> Record
+  ^\s{20}lsp-exp-out-profile 3 -> Record
+  ^\s{20}dot1p-in-profile 3 -> Record
+  ^\s{20}dot1p-out-profile 3 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 4 -> Record
+  ^\s{16}exit -> Egress
+
+Fcl2
+  ^\s{20}dscp-in-profile cs1 -> Record
+  ^\s{20}dscp-out-profile cs1 -> Record
+  ^\s{20}lsp-exp-in-profile 1 -> Record
+  ^\s{20}lsp-exp-out-profile 1 -> Record
+  ^\s{20}dot1p-in-profile 1 -> Record
+  ^\s{20}dot1p-out-profile 1 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 2 -> Record
+  ^\s{16}exit -> Egress
+
+Fcnc
+  ^\s{20}dscp-in-profile cs5 -> Record
+  ^\s{20}dscp-out-profile cs5 -> Record
+  ^\s{20}lsp-exp-in-profile 6 -> Record
+  ^\s{20}lsp-exp-out-profile 6 -> Record
+  ^\s{20}dot1p-in-profile 6 -> Record
+  ^\s{20}dot1p-out-profile 6 -> Record
+  ^\s{20}no de-mark -> Record
+  ^\s{20}port-redirect-group queue 8 -> Record
+  ^\s{16}exit -> Egress
+
+EOF

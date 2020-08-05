@@ -1437,7 +1437,6 @@ class Nokia(object):
                 writer.writerows(data)
 
         template.close()
-        if console:
         return Get(200,'All files were processed correctly',data)
 
     def scenery13(self,files,temp):
@@ -2016,7 +2015,308 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
+    def scenery17_1(self,files,temp):
+        """
+        Docstring for .scenery17_01(files,templates)
+        file Processor for logs in scenery 17_01
 
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname','model','source','application_ftp','application_snmp','application_snmp_notificacion','application_ssh','application_telnet','application_tftp','application_ptp','dscp_cs1']]
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # ['SOVADO-MAZ224-GA',
+            # '7750',
+            # '10.190.0.107', 
+            # 'cs1', 'cs1', 'cs1', 'cs1', 'cs1', 'cs1', 'ef']
+
+            for row in fsm_results:
+                if row[3] == 'cs1' and row[4] == 'cs1' and row[5] == 'cs1' and row[6] == 'cs1' and row[7] == 'cs1' and row[8] == 'cs1':
+                    data.append([row[0],row[1],row[2],1,1,1,1,1,1,row[9],1])
+                else:
+                    data.append([
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
+                        row[9],
+                        1
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_01.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_2(self,files,temp):
+        """
+        Docstring for .scenery17_2files,templates)
+        file Processor for logs in scenery 17_02
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname','model','source','network','description']]
+        
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 102 that means all policies is in the file 
+
+            if len(fsm_results) == 102:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    fsm_results[0][4]
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_02.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_3(self,files,temp):
+        """
+        Docstring for .scenery17_3files,templates)
+        file Processor for logs in scenery 17_03
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname','model','source','network','description']]
+        
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 45 that means all policies is in the file 
+
+            if len(fsm_results) == 45:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    fsm_results[0][4]
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_03.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery17_4(self,files,temp):
+        """
+        Docstring for .scenery17_4files,templates)
+        file Processor for logs in scenery 17_4
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname','model','source','network','description']]
+        
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 10 that means all policies is in the file 
+            print(len(fsm_results))
+            input("sd")
+            if len(fsm_results) == 10:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    fsm_results[0][4]
+                ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_17_4.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
 
 if __name__ == '__main__':
     console = True
@@ -2079,8 +2379,17 @@ if __name__ == '__main__':
         elif '16.fsm' in sys.argv[1]:
             print(this.scenery16(files,template).message)
             # print("End of scenery 16")
-        elif '17_01.fsm' in sys.argv[1]:
-            print(this.scenery17(files,template).message)
+        elif '17_1.fsm' in sys.argv[1]:
+            print(this.scenery17_1(files,template).message)
+            # print("End of scenery 17")
+        elif '17_2.fsm' in sys.argv[1]:
+            print(this.scenery17_2(files,template).message)
+            # print("End of scenery 17")
+        elif '17_3.fsm' in sys.argv[1]:
+            print(this.scenery17_3(files,template).message)
+            # print("End of scenery 17")
+        elif '17_4.fsm' in sys.argv[1]:
+            print(this.scenery17_4(files,template).message)
             # print("End of scenery 17")
         else:
             print("We can't find this option or template isn't to this tool")
