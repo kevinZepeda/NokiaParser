@@ -1,0 +1,92 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+Value cbs_5 (\S+)
+Value mbs_5 (\S+)
+Value cbs_6 (\S+)
+Value mbs_6 (\S+)
+Value test (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}queue-group-templates -> Queue
+  ^\s{4}exit -> Start
+
+Queue
+  ^\s{12}egress -> Egress
+  ^\s{8}exit -> Qos
+
+Egress
+  ^\s{16}queue-group "IPMEAN-QG:100G:SR-a8" create -> Group
+  ^\s{12}exit -> Queue
+
+Group
+  ^\s{20}description "${description}"
+  ^\s{20}queue 1 best-effort create -> Effort1
+  ^\s{20}queue 2 best-effort create -> Effort2
+  ^\s{20}queue 3 best-effort create -> Effort3
+  ^\s{20}queue 4 best-effort create -> Effort4
+  ^\s{20}queue 5 expedite create -> Expedite5
+  ^\s{20}queue 6 expedite create -> Expedite6
+  ^\s{20}queue 8 expedite create -> Expedite8
+  ^\s{16}exit -> Egress
+
+Effort1
+  ^.+cir-level 1 -> Record
+  ^\s{24}percent-rate 100.00 cir 5.00 -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Effort2
+  ^.+level 2 cir-level 2 -> Record
+  ^\s{24}percent-rate 100.00 cir 2.50 -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Effort3
+  ^.+level 3 cir-level 3 -> Record
+  ^\s{24}percent-rate 100.00 cir 7.50 -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Effort4
+  ^.+level 4 cir-level 4 -> Record
+  ^\s{24}percent-rate 100.00 cir 15.00 -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Expedite5
+  ^.+level 5 cir-level 5 -> Record
+  ^\s{24}percent-rate 100.00 cir 15.00 -> Record
+  ^\s{24}cbs ${cbs_5} -> Record
+  ^\s{24}mbs ${mbs_5} kilobytes -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Expedite6
+  ^.+level 6 cir-level 6 -> Record
+  ^\s{24}percent-rate 50.00 cir 50.00 -> Record
+  ^\s{24}cbs ${cbs_6} -> Record
+  ^\s{24}mbs ${mbs_6} kilobytes -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+
+Expedite8
+  ^.+level 8 cir-level 8 -> Record
+  ^\s{24}percent-rate 100.00 cir 5.00 -> Record
+  ^\s{24}packet-byte-offset add 20 -> Record
+  ^\s{20}exit -> Group
+  
+EOF

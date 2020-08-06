@@ -1,0 +1,42 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}slope-policy "COS3_queue_wred_policy1" create -> Slope
+  ^\s{4}exit -> Start
+
+Slope
+  ^\s{12}description "${description}" -> Record
+  ^\s{12}high-slope -> High
+  ^\s{12}low-slope -> Low
+  ^\s{8}exit -> Qos
+
+High
+  ^\s{16}start-avg 24 -> Record
+  ^\s{16}max-avg 40 -> Record
+  ^\s{16}max-prob 15 -> Record
+  ^\s{16}no shutdown -> Record
+  ^\s{12}exit -> Slope
+
+Low
+  ^\s{16}start-avg 20 -> Record
+  ^\s{16}max-avg 40 -> Record
+  ^\s{16}max-prob 15 -> Record
+  ^\s{16}no shutdown -> Record
+  ^\s{12} -> Slope
+  
+EOF

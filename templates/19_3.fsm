@@ -1,0 +1,35 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}filter -> Filter
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Filter
+  ^\s{8}ip-filter 3001 -> 3001
+  ^\s{4}exit -> Start
+
+3001
+  ^\s{12}description "${description}"
+  ^\s{12}entry 100 create -> Entry
+  ^\s{8}exit -> Filter
+
+Entry
+  ^\s{16}action -> Action
+  ^\s{12}exit -> 3001
+
+Action
+  ^\s{20}remark dscp "cs1" -> Record
+  ^\s{16}exit -> Entry
+
+EOF

@@ -1,0 +1,36 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}port-scheduler-policy "PS-IPMEAN-access:Mobile" create -> Port
+  ^\s{4}exit -> Start
+
+Port
+  ^\s{12}description "${description}
+  ^\s{12}level 1 percent-rate 100.00 percent-cir 5.00 -> Record
+  ^\s{12}level 2 percent-rate 100.00 percent-cir 2.50 -> Record
+  ^\s{12}level 3 percent-rate 100.00 percent-cir 7.50 -> Record
+  ^\s{12}level 4 percent-rate 100.00 percent-cir 15.00 -> Record
+  ^\s{12}level 5 percent-rate 100.00 percent-cir 15.00 -> Record
+  ^\s{12}level 6 percent-rate 50.00 percent-cir 50.00 -> Record
+  ^\s{12}level 7 percent-rate 100.00 percent-cir 0.00 -> Record
+  ^\s{12}level 8 percent-rate 100.00 percent-cir 5.00 -> Record
+  ^\s{12}orphan-override level 5 cir-level 5 -> Record
+  ^\s{8}exit -> Qos 
+
+
+EOF

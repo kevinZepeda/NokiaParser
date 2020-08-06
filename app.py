@@ -3344,6 +3344,884 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
+    def scenery18_1(self,files,temp):
+        """
+        Docstring for .scenery17_9(files,templates)
+        file Processor for logs in scenery 17_9
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sr-a8_queue_group_1g_create',
+            'sr-a8_queue_group_1g_description',
+            'sr-a8_queue_group_1g_queue1_create',
+            'sr-a8_queue_group_1g_queue1_port_parent',
+            'sr-a8_queue_group_1g_queue1_percent_rate',
+            'sr-a8_queue_group_1g_queue1_packet_byte',
+            'sr-a8_queue_group_1g_queue2_create',
+            'sr-a8_queue_group_1g_queue2_port_parent',
+            'sr-a8_queue_group_1g_queue2_percent_rate',
+            'sr-a8_queue_group_1g_queue2_packet_byte',
+            'sr-a8_queue_group_1g_queue3_create',
+            'sr-a8_queue_group_1g_queue3_port_parent',
+            'sr-a8_queue_group_1g_queue3_percent_rate',
+            'sr-a8_queue_group_1g_queue3_packet_byte',
+            'sr-a8_queue_group_1g_queue4_create',
+            'sr-a8_queue_group_1g_queue4_port_parent',
+            'sr-a8_queue_group_1g_queue4_percent_rate',
+            'sr-a8_queue_group_1g_queue4_packet_byte',
+            'sr-a8_queue_group_1g_queue5_create',
+            'sr-a8_queue_group_1g_queue5_port_parent',
+            'sr-a8_queue_group_1g_queue5_percent_rate',
+            'sr-a8_queue_group_1g_queue5_cbs',
+            'sr-a8_queue_group_1g_queue5_mbs',
+            'sr-a8_queue_group_1g_queue5_packet_byte',
+            'sr-a8_queue_group_1g_queue6_create',
+            'sr-a8_queue_group_1g_queue6_port_parent',
+            'sr-a8_queue_group_1g_queue6_percent_rate',
+            'sr-a8_queue_group_1g_queue6_cbs',
+            'sr-a8_queue_group_1g_queue6_mbs',
+            'sr-a8_queue_group_1g_queue6_packet_byte',
+            'sr-a8_queue_group_1g_queue8_create',
+            'sr-a8_queue_group_1g_queue8_port_parent',
+            'sr-a8_queue_group_1g_queue8_percent_rate',
+            'sr-a8_queue_group_1g_queue8_packet_byte']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 25 that means all policies is in the file 
+            if len(fsm_results) == 25:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_18_1.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery18_2(self,files,temp):
+        """
+        Docstring for .scenery18_2(files,templates)
+        file Processor for logs in scenery 18_2
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sr-a8_queue_group_1g_create',
+            'sr-a8_queue_group_1g_description',
+            'sr-a8_queue_group_1g_queue1_create',
+            'sr-a8_queue_group_1g_queue1_port_parent',
+            'sr-a8_queue_group_1g_queue1_percent_rate',
+            'sr-a8_queue_group_1g_queue1_packet_byte',
+            'sr-a8_queue_group_1g_queue2_create',
+            'sr-a8_queue_group_1g_queue2_port_parent',
+            'sr-a8_queue_group_1g_queue2_percent_rate',
+            'sr-a8_queue_group_1g_queue2_packet_byte',
+            'sr-a8_queue_group_1g_queue3_create',
+            'sr-a8_queue_group_1g_queue3_port_parent',
+            'sr-a8_queue_group_1g_queue3_percent_rate',
+            'sr-a8_queue_group_1g_queue3_packet_byte',
+            'sr-a8_queue_group_1g_queue4_create',
+            'sr-a8_queue_group_1g_queue4_port_parent',
+            'sr-a8_queue_group_1g_queue4_percent_rate',
+            'sr-a8_queue_group_1g_queue4_packet_byte',
+            'sr-a8_queue_group_1g_queue5_create',
+            'sr-a8_queue_group_1g_queue5_port_parent',
+            'sr-a8_queue_group_1g_queue5_percent_rate',
+            'sr-a8_queue_group_1g_queue5_cbs',
+            'sr-a8_queue_group_1g_queue5_mbs',
+            'sr-a8_queue_group_1g_queue5_packet_byte',
+            'sr-a8_queue_group_1g_queue6_create',
+            'sr-a8_queue_group_1g_queue6_port_parent',
+            'sr-a8_queue_group_1g_queue6_percent_rate',
+            'sr-a8_queue_group_1g_queue6_cbs',
+            'sr-a8_queue_group_1g_queue6_mbs',
+            'sr-a8_queue_group_1g_queue6_packet_byte',
+            'sr-a8_queue_group_1g_queue8_create',
+            'sr-a8_queue_group_1g_queue8_port_parent',
+            'sr-a8_queue_group_1g_queue8_percent_rate',
+            'sr-a8_queue_group_1g_queue8_packet_byte']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 25 that means all policies is in the file 
+            if len(fsm_results) == 25:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_18_2.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery18_3(self,files,temp):
+        """
+        Docstring for .scenery18_3(files,templates)
+        file Processor for logs in scenery 18_3
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sr-a8_queue_group_1g_create',
+            'sr-a8_queue_group_1g_description',
+            'sr-a8_queue_group_1g_queue1_create',
+            'sr-a8_queue_group_1g_queue1_port_parent',
+            'sr-a8_queue_group_1g_queue1_percent_rate',
+            'sr-a8_queue_group_1g_queue1_packet_byte',
+            'sr-a8_queue_group_1g_queue2_create',
+            'sr-a8_queue_group_1g_queue2_port_parent',
+            'sr-a8_queue_group_1g_queue2_percent_rate',
+            'sr-a8_queue_group_1g_queue2_packet_byte',
+            'sr-a8_queue_group_1g_queue3_create',
+            'sr-a8_queue_group_1g_queue3_port_parent',
+            'sr-a8_queue_group_1g_queue3_percent_rate',
+            'sr-a8_queue_group_1g_queue3_packet_byte',
+            'sr-a8_queue_group_1g_queue4_create',
+            'sr-a8_queue_group_1g_queue4_port_parent',
+            'sr-a8_queue_group_1g_queue4_percent_rate',
+            'sr-a8_queue_group_1g_queue4_packet_byte',
+            'sr-a8_queue_group_1g_queue5_create',
+            'sr-a8_queue_group_1g_queue5_port_parent',
+            'sr-a8_queue_group_1g_queue5_percent_rate',
+            'sr-a8_queue_group_1g_queue5_cbs',
+            'sr-a8_queue_group_1g_queue5_mbs',
+            'sr-a8_queue_group_1g_queue5_packet_byte',
+            'sr-a8_queue_group_1g_queue6_create',
+            'sr-a8_queue_group_1g_queue6_port_parent',
+            'sr-a8_queue_group_1g_queue6_percent_rate',
+            'sr-a8_queue_group_1g_queue6_cbs',
+            'sr-a8_queue_group_1g_queue6_mbs',
+            'sr-a8_queue_group_1g_queue6_packet_byte',
+            'sr-a8_queue_group_1g_queue8_create',
+            'sr-a8_queue_group_1g_queue8_port_parent',
+            'sr-a8_queue_group_1g_queue8_percent_rate',
+            'sr-a8_queue_group_1g_queue8_packet_byte']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 25 that means all policies is in the file 
+            if len(fsm_results) == 25:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_18_3.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_1(self,files,temp):
+        """
+        Docstring for .scenery19_1(files,templates)
+        file Processor for logs in scenery 19_!
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'ip-filter']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 1 that means all policies is in the file 
+            if len(fsm_results) == 1:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    2021
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_1.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_2(self,files,temp):
+        """
+        Docstring for .scenery19_2(files,templates)
+        file Processor for logs in scenery 19_2
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'ip-filter']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 1 that means all policies is in the file 
+            if len(fsm_results) == 1:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    2031
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_2.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_3(self,files,temp):
+        """
+        Docstring for .scenery19_3(files,templates)
+        file Processor for logs in scenery 19_3
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'ip-filter']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 1 that means all policies is in the file 
+            if len(fsm_results) == 1:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    3001
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_3.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_4(self,files,temp):
+        """
+        Docstring for .scenery19_4(files,templates)
+        file Processor for logs in scenery 19_4
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'slope-policy']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 9 that means all policies is in the file 
+            if len(fsm_results) == 9:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    'COS2'
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_4.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_5(self,files,temp):
+        """
+        Docstring for .scenery19_5(files,templates)
+        file Processor for logs in scenery 19_5
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'slope-policy']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 9 that means all policies is in the file 
+            if len(fsm_results) == 9:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    'COS3'
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_5.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery19_6(self,files,temp):
+        """
+        Docstring for .scenery19_6(files,templates)
+        file Processor for logs in scenery 19_6
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'scheduler-access']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+
+            # If fsm_results contains 9 that means all policies is in the file 
+            if len(fsm_results) == 9:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_19_6.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
 
 
 if __name__ == '__main__':
@@ -3436,6 +4314,33 @@ if __name__ == '__main__':
             # print("End of scenery 17")
         elif '17_9.fsm' in sys.argv[1]:
             print(this.scenery17_9(files,template).message)
+            # print("End of scenery 17")
+        elif '18_1.fsm' in sys.argv[1]:
+            print(this.scenery18_1(files,template).message)
+            # print("End of scenery 17")
+        elif '18_2.fsm' in sys.argv[1]:
+            print(this.scenery18_2(files,template).message)
+            # print("End of scenery 17")
+        elif '18_3.fsm' in sys.argv[1]:
+            print(this.scenery18_3(files,template).message)
+            # print("End of scenery 17")
+        elif '19_1.fsm' in sys.argv[1]:
+            print(this.scenery19_1(files,template).message)
+            # print("End of scenery 17")
+        elif '19_2.fsm' in sys.argv[1]:
+            print(this.scenery19_2(files,template).message)
+            # print("End of scenery 17")
+        elif '19_3.fsm' in sys.argv[1]:
+            print(this.scenery19_3(files,template).message)
+            # print("End of scenery 17")
+        elif '19_4.fsm' in sys.argv[1]:
+            print(this.scenery19_4(files,template).message)
+            # print("End of scenery 17")
+        elif '19_5.fsm' in sys.argv[1]:
+            print(this.scenery19_5(files,template).message)
+            # print("End of scenery 17")
+        elif '19_6.fsm' in sys.argv[1]:
+            print(this.scenery19_6(files,template).message)
             # print("End of scenery 17")
         else:
             print("We can't find this option or template isn't to this tool")
