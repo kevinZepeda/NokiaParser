@@ -4342,5 +4342,62 @@ if __name__ == '__main__':
         elif '19_6.fsm' in sys.argv[1]:
             print(this.scenery19_6(files,template).message)
             # print("End of scenery 17")
+        # elif '20_1.fsm' in sys.argv[1]:
+        #     print(this.scenery20_1(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_2.fsm' in sys.argv[1]:
+        #     print(this.scenery20_2(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_3.fsm' in sys.argv[1]:
+        #     print(this.scenery20_3(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_4.fsm' in sys.argv[1]:
+        #     print(this.scenery20_4(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_5.fsm' in sys.argv[1]:
+        #     print(this.scenery20_5(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_6.fsm' in sys.argv[1]:
+        #     print(this.scenery20_6(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_7.fsm' in sys.argv[1]:
+        #     print(this.scenery20_7(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_8.fsm' in sys.argv[1]:
+        #     print(this.scenery20_8(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '20_9.fsm' in sys.argv[1]:
+        #     print(this.scenery20_9(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_1.fsm' in sys.argv[1]:
+        #     print(this.scenery21_1(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_2.fsm' in sys.argv[1]:
+        #     print(this.scenery21_2(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_3.fsm' in sys.argv[1]:
+        #     print(this.scenery21_3(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_3.fsm' in sys.argv[1]:
+        #     print(this.scenery21_3(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_4.fsm' in sys.argv[1]:
+        #     print(this.scenery21_4(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_5.fsm' in sys.argv[1]:
+        #     print(this.scenery21_5(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_6.fsm' in sys.argv[1]:
+        #     print(this.scenery21_6(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_7.fsm' in sys.argv[1]:
+        #     print(this.scenery21_7(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_8.fsm' in sys.argv[1]:
+        #     print(this.scenery21_8(files,template).message)
+        #     # print("End of scenery 20")
+        # elif '21_9.fsm' in sys.argv[1]:
+        #     print(this.scenery21_9(files,template).message)
+        #     # print("End of scenery 20")
         else:
             print("We can't find this option or template isn't to this tool")

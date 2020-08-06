@@ -29,7 +29,7 @@ Queue
   ^\s{8}exit -> Qos
 
 Egress
-  ^\s{16}queue-group "OLT-QG:200M" create -> Group
+  ^\s{16}queue-group "IPMEAN-QG:1G" create -> Group
   ^\s{12}exit -> Queue
 
 Group
@@ -51,7 +51,7 @@ Group
   ^\s{16}exit -> Egress
 
 Effort1
-  ^\s{24}port-parent level 1 weight 1 cir-level 1 cir-weight 0 -> Record
+  ^\s{24}port-parent level 1 weight 1 cir-level ${test} cir-weight 0 -> Record
   ^\s{24}percent-rate 100.00 cir 5.00 -> Record
   ^\s{24}packet-byte-offset add 20 -> Record
   ^\s{20}exit -> Group
