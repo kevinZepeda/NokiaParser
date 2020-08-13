@@ -4223,6 +4223,1030 @@ class Nokia(object):
 
         return Get(200,'All files were processed correctly',data)
 
+    def scenery20_1(self,files,temp):
+        """
+        Docstring for .scenery20_1(files,templates)
+        file Processor for logs in scenery 20_1
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2000_create',
+            'sap_ingress_2000_description',
+            'sap_ingress_2000_queue1_create',
+            'sap_ingress_2000_queue1_percent_rate',
+            'sap_ingress_2000_queue2_create',
+            'sap_ingress_2000_queue2_percent_rate',
+            'sap_ingress_2000_queue3_create',
+            'sap_ingress_2000_queue3_percent_rate',
+            'sap_ingress_2000_queue4_create',
+            'sap_ingress_2000_queue4_percent_rate',
+            'sap_ingress_2000_queue5_create',
+            'sap_ingress_2000_queue5_percent_rate',
+            'sap_ingress_2000_queue5_mbs',
+            'sap_ingress_2000_queue5_cbs',
+            'sap_ingress_2000_queue6_create',
+            'sap_ingress_2000_queue6_percent_rate',
+            'sap_ingress_2000_queue11_create',
+            'sap_ingress_2000_queue11_rate',
+            'sap_ingress_2000_fc_af_create',
+            'sap_ingress_2000_fc_af_queue',
+            'sap_ingress_2000_fc_be_create',
+            'sap_ingress_2000_fc_be_queue',
+            'sap_ingress_2000_fc_ef_create',
+            'sap_ingress_2000_fc_ef_queue',
+            'sap_ingress_2000_fc_h2_create',
+            'sap_ingress_2000_fc_h2_queue',
+            'sap_ingress_2000_fc_l1_create',
+            'sap_ingress_2000_fc_l1_queue',
+            'sap_ingress_2000_fc_l2_create',
+            'sap_ingress_2000_fc_l2_queue',
+            'sap_ingress_2000_fc_nc_create',
+            'sap_ingress_2000_fc_nc_queue',
+            'sap_ingress_2000_dscp_fc_af_low',
+            'sap_ingress_2000_dscp_fc_af_high',
+            'sap_ingress_2000_dscp_fc_ef_high',
+            'sap_ingress_2000_dscp_fc_h2_high',
+            'sap_ingress_2000_dscp_fc_l1_low',
+            'sap_ingress_2000_dscp_fc_l1_high',
+            'sap_ingress_2000_dscp_fc_l2',
+            'sap_ingress_2000_dscp_fc_nc_high']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 24 that means all policies is in the file 
+            if len(fsm_results) == 24:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                    ])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_1.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_2(self,files,temp):
+        """
+        Docstring for .scenery20_2(files,templates)
+        file Processor for logs in scenery 20_2
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2010_create',
+            'sap_ingress_2010_description',
+            'sap_ingress_2010_queue1_create',
+            'sap_ingress_2010_queue1_percent_rate',
+            'sap_ingress_2010_queue2_create',
+            'sap_ingress_2010_queue2_percent_rate',
+            'sap_ingress_2010_queue2_mbs',
+            'sap_ingress_2010_queue2_cbs',
+            'sap_ingress_2010_queue3_create',
+            'sap_ingress_2010_queue3_percent_rate',
+            'sap_ingress_2010_queue11_create',
+            'sap_ingress_2010_queue11_rate',
+            'sap_ingress_2010_fc_be_create',
+            'sap_ingress_2010_fc_be_queue',
+            'sap_ingress_2010_fc_ef_create',
+            'sap_ingress_2010_fc_ef_queue',
+            'sap_ingress_2010_fc_nc_create',
+            'sap_ingress_2010_fc_nc_queue',
+            'sap_ingress_2010_dscp_fc_ef_high',
+            'sap_ingress_2010_dscp_fc_nc_high']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 11 that means all policies is in the file 
+            if len(fsm_results) == 11:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_2.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+ 
+    def scenery20_3(self,files,temp):
+        """
+        Docstring for .scenery20_3(files,templates)
+        file Processor for logs in scenery 20_3
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2010_create',
+            'sap_ingress_2010_description',
+            'sap_ingress_2010_queue1_create',
+            'sap_ingress_2010_queue1_percent_rate',
+            'sap_ingress_2010_queue2_create',
+            'sap_ingress_2010_queue2_percent_rate',
+            'sap_ingress_2010_queue2_mbs',
+            'sap_ingress_2010_queue2_cbs',
+            'sap_ingress_2010_queue3_create',
+            'sap_ingress_2010_queue3_percent_rate',
+            'sap_ingress_2010_queue11_create',
+            'sap_ingress_2010_queue11_rate',
+            'sap_ingress_2010_fc_be_create',
+            'sap_ingress_2010_fc_be_queue',
+            'sap_ingress_2010_fc_ef_create',
+            'sap_ingress_2010_fc_ef_queue',
+            'sap_ingress_2010_fc_nc_create',
+            'sap_ingress_2010_fc_nc_queue',
+            'sap_ingress_2010_dscp_fc_ef_high',
+            'sap_ingress_2010_dscp_fc_nc_high']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 14 that means all policies is in the file 
+            if len(fsm_results) == 14:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_3.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_4(self,files,temp):
+        """
+        Docstring for .scenery20_4(files,templates)
+        file Processor for logs in scenery 20_4
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2021_create',
+            'sap_ingress_2021_description',
+            'sap_ingress_2021_queue1_create',
+            'sap_ingress_2021_queue1_percent_rate',
+            'sap_ingress_2021_queue11_create',
+            'sap_ingress_2021_queue11_rate',
+            'sap_ingress_2021_fc_af_create',
+            'sap_ingress_2021_fc_af_queue',
+            'sap_ingress_2021_fc_af_in_dscp',
+            'sap_ingress_2021_fc_af_out_dscp',
+            'sap_ingress_2021_default_fc']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 6 that means all policies is in the file 
+            if len(fsm_results) == 6:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_4.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_5(self,files,temp):
+        """
+        Docstring for .scenery20_5(files,templates)
+        file Processor for logs in scenery 20_5
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2030_create',
+            'sap_ingress_2030_description',
+            'sap_ingress_2030_queue1_create',
+            'sap_ingress_2030_queue1_percent_rate',
+            'sap_ingress_2030_queue2_create',
+            'sap_ingress_2030_queue2_percent_rate',
+            'sap_ingress_2030_queue11_create',
+            'sap_ingress_2030_queue11_rate',
+            'sap_ingress_2030_fc_be_create',
+            'sap_ingress_2030_fc_be_queue',
+            'sap_ingress_2030_fc_nc_create',
+            'sap_ingress_2030_fc_nc_queue',
+            'sap_ingress_2030_dscp_map']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 6 that means all policies is in the file 
+            if len(fsm_results) == 6:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_5.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_6(self,files,temp):
+        """
+        Docstring for .scenery20_6(files,templates)
+        file Processor for logs in scenery 20_6
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_2031_create',
+            'sap_ingress_2031_description',
+            'sap_ingress_2031_queue1_create',
+            'sap_ingress_2031_queue1_percent_rate',
+            'sap_ingress_2031_queue11_create',
+            'sap_ingress_2031_queue11_rate',
+            'sap_ingress_2031_fc_nc_create',
+            'sap_ingress_2031_fc_nc_queue',
+            'sap_ingress_2031_fc_nc_in_dscp',
+            'sap_ingress_2031_fc_nc_out_dscp',
+            'sap_ingress_2031_default_fc',
+            'sap_ingress_2031_default_priority']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 7 that means all policies is in the file 
+            if len(fsm_results) == 7:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_6.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_7(self,files,temp):
+        """
+        Docstring for .scenery20_7(files,templates)
+        file Processor for logs in scenery 20_7
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_3000_create',
+            'sap_ingress_3000_description',
+            'sap_ingress_3000_queue1_create',
+            'sap_ingress_3000_queue1_percent_rate',
+            'sap_ingress_3000_queue11_create',
+            'sap_ingress_3000_queue11_rate',
+            'sap_ingress_3000_fc_l2_create',
+            'sap_ingress_3000_fc_l2_queue',
+            'sap_ingress_3000_default_fc']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 4 that means all policies is in the file 
+            if len(fsm_results) == 4:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_7.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_8(self,files,temp):
+        """
+        Docstring for .scenery20_8(files,templates)
+        file Processor for logs in scenery 20_8
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_3001_create',
+            'sap_ingress_3001_description',
+            'sap_ingress_3001_queue1_create',
+            'sap_ingress_3001_queue1_percent_rate',
+            'sap_ingress_3001_queue11_create',
+            'sap_ingress_3001_queue11_rate',
+            'sap_ingress_3001_fc_l2_create',
+            'sap_ingress_3001_fc_l2_queue',
+            'sap_ingress_3001_fc_l2_in_dscp',
+            'sap_ingress_3001_fc_l2_out_dscp',
+            'sap_ingress_3001_default_fc']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 6 that means all policies is in the file 
+            if len(fsm_results) == 6:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_8.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+    def scenery20_9(self,files,temp):
+        """
+        Docstring for .scenery20_9(files,templates)
+        file Processor for logs in scenery 20_9
+
+        Parameters
+        ----------
+        files : [list_of_files]
+            the list of files to be processed
+        temp : str
+            file for template
+
+
+        Returns
+        -------
+        object : Get()
+            .status  : status code
+            .message : Healthy status message
+            .data    : Data into a JSON
+
+        Raises
+        ------
+        KeyError
+            When Parameter It's empty
+        Status 200
+            It's OK
+        Status 400
+            Something It's wrong
+        Status 404
+            File not foud
+        """
+        if len(files) < 1:
+            return Get(404,'Files are empty',None)
+        data = [['Sysname',
+            'model',
+            'source',
+            'description',
+            'sap_ingress_10001_create',
+            'sap_ingress_10001_description',
+            'sap_ingress_10001_queue1_create',
+            'sap_ingress_10001_queue1_percent_rate',
+            'sap_ingress_10001_queue2_create',
+            'sap_ingress_10001_queue2_percent_rate',
+            'sap_ingress_10001_queue3_create',
+            'sap_ingress_10001_queue3_percent_rate',
+            'sap_ingress_10001_queue4_create',
+            'sap_ingress_10001_queue4_percent_rate',
+            'sap_ingress_10001_queue5_create',
+            'sap_ingress_10001_queue5_percent_rate',
+            'sap_ingress_10001_queue5_mbs',
+            'sap_ingress_10001_queue5_cbs',
+            'sap_ingress_10001_queue6_create',
+            'sap_ingress_10001_queue6_percent_rate',
+            'sap_ingress_10001_queue6_mbs',
+            'sap_ingress_10001_queue6_cbs',
+            'sap_ingress_10001_queue8_create',
+            'sap_ingress_10001_queue8_percent_rate',
+            'sap_ingress_10001_queue11_create',
+            'sap_ingress_10001_queue11_rate',
+            'sap_ingress_10001_fc_af_create',
+            'sap_ingress_10001_fc_af_queue',
+            'sap_ingress_10001_fc_be_create',
+            'sap_ingress_10001_fc_be_queue',
+            'sap_ingress_10001_fc_ef_create',
+            'sap_ingress_10001_fc_ef_queue',
+            'sap_ingress_10001_fc_h2_create',
+            'sap_ingress_10001_fc_h2_queue',
+            'sap_ingress_10001_fc_l1_create',
+            'sap_ingress_10001_fc_l1_queue',
+            'sap_ingress_10001_fc_l2_create',
+            'sap_ingress_10001_fc_l2_queue',
+            'sap_ingress_10001_fc_nc_create',
+            'sap_ingress_10001_fc_nc_queue',
+            'sap_ingress_10001_dot1p_fc_be_low',
+            'sap_ingress_10001_dot1p_fc_l2_high',
+            'sap_ingress_10001_dot1p_fc_af_high',
+            'sap_ingress_10001_dot1p_fc_l1_high',
+            'sap_ingress_10001_dot1p_fc_h2_high',
+            'sap_ingress_10001_dot1p_fc_ef_high',
+            'sap_ingress_10001_dot1p_fc_nc_high',
+            'sap_ingress_10001_dscp_fc_l2_high',
+            'sap_ingress_10001_dscp_fc_af_low',
+            'sap_ingress_10001_dscp_fc_af_high',
+            'sap_ingress_10001_dscp_fc_ef_high',
+            'sap_ingress_10001_dscp_fc_h2_high',
+            'sap_ingress_10001_dscp_fc_l1_low',
+            'sap_ingress_10001_dscp_fc_l1_high',
+            'sap_ingress_10001_dscp_fc_nc_high']]
+
+
+        ###############  Template #######################
+        template = open(temp)
+        ############# File Processor ##########################
+        for filename in tqdm(files):
+
+            input_file = open(filename, encoding='utf-8')
+            raw_text_data = input_file.read()
+            input_file.close()
+
+            ############ Call To Parse ################
+            re_table = textfsm.TextFSM(template)
+            fsm_results = re_table.ParseText(raw_text_data)
+
+            ############ Structure results ############
+            # If fsm_results contains 32  that means all policies is in the file 
+            if len(fsm_results) == 32:
+                data.append([
+                    fsm_results[0][0],
+                    fsm_results[0][1],
+                    fsm_results[0][2],
+                    fsm_results[0][3],
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1])
+
+
+        if console:
+            myFile = open('Nokia_'+str(len(files))+'_files_scenery_20_9.csv', 'w')
+            with myFile:
+                writer = csv.writer(myFile)
+                writer.writerows(data)
+
+        template.close()
+
+        return Get(200,'All files were processed correctly',data)
+
+
 
 if __name__ == '__main__':
     console = True
@@ -4342,33 +5366,33 @@ if __name__ == '__main__':
         elif '19_6.fsm' in sys.argv[1]:
             print(this.scenery19_6(files,template).message)
             # print("End of scenery 17")
-        # elif '20_1.fsm' in sys.argv[1]:
-        #     print(this.scenery20_1(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_2.fsm' in sys.argv[1]:
-        #     print(this.scenery20_2(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_3.fsm' in sys.argv[1]:
-        #     print(this.scenery20_3(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_4.fsm' in sys.argv[1]:
-        #     print(this.scenery20_4(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_5.fsm' in sys.argv[1]:
-        #     print(this.scenery20_5(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_6.fsm' in sys.argv[1]:
-        #     print(this.scenery20_6(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_7.fsm' in sys.argv[1]:
-        #     print(this.scenery20_7(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_8.fsm' in sys.argv[1]:
-        #     print(this.scenery20_8(files,template).message)
-        #     # print("End of scenery 20")
-        # elif '20_9.fsm' in sys.argv[1]:
-        #     print(this.scenery20_9(files,template).message)
-        #     # print("End of scenery 20")
+        elif '20_1.fsm' in sys.argv[1]:
+            print(this.scenery20_1(files,template).message)
+            # print("End of scenery 20")
+        elif '20_2.fsm' in sys.argv[1]:
+            print(this.scenery20_2(files,template).message)
+            # print("End of scenery 20")
+        elif '20_3.fsm' in sys.argv[1]:
+            print(this.scenery20_3(files,template).message)
+            # print("End of scenery 20")
+        elif '20_4.fsm' in sys.argv[1]:
+            print(this.scenery20_4(files,template).message)
+            # print("End of scenery 20")
+        elif '20_5.fsm' in sys.argv[1]:
+            print(this.scenery20_5(files,template).message)
+            # print("End of scenery 20")
+        elif '20_6.fsm' in sys.argv[1]:
+            print(this.scenery20_6(files,template).message)
+            # print("End of scenery 20")
+        elif '20_7.fsm' in sys.argv[1]:
+            print(this.scenery20_7(files,template).message)
+            # print("End of scenery 20")
+        elif '20_8.fsm' in sys.argv[1]:
+            print(this.scenery20_8(files,template).message)
+            # print("End of scenery 20")
+        elif '20_9.fsm' in sys.argv[1]:
+            print(this.scenery20_9(files,template).message)
+            # print("End of scenery 20")
         # elif '21_1.fsm' in sys.argv[1]:
         #     print(this.scenery21_1(files,template).message)
         #     # print("End of scenery 20")

@@ -1,10 +1,13 @@
 spawn -nottycopy ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -oCheckHostIP=no ATT9084488@10.190.4.173
-Warning: Permanently added '10.190.4.173' (RSA) to the list of known hosts.
+Warning: Permanently added '10.190.4.173' (RSA) to the list of known hosts.
+
 This is a AT&T system restricted to authorized individuals.
  This system is subject to monitoring. Unauthorized users,
 access, and/or modification will be prosecuted.
-
-ATT9084488@10.190.4.173's password: 
+
+
+
+ATT9084488@10.190.4.173's password: 
 A:TORDIA-DIFCHT6125-GB# environment no more 
 A:TORDIA-DIFCHT6125-GB# show chassis 
 ===============================================================================
@@ -39,9 +42,12 @@ Chassis   Role                Status
 1         Standalone          up
 ===============================================================================
 A:TORDIA-DIFCHT6125-GB# admin display-config detail 
-# TiMOS-C-16.0.R5-1 cpm/hops64 Nokia 7750 SR Copyright (c) 2000-2019 Nokia.
-# All rights reserved. All use subject to applicable license agreements.
-# Built on Fri Jan 18 10:59:23 PST 2019 by builder in /builds/c/160B/R5-1/panos/main
+# TiMOS-C-16.0.R5-1 cpm/hops64 Nokia 7750 SR Copyright (c) 2000-2019 Nokia.
+
+# All rights reserved. All use subject to applicable license agreements.
+
+# Built on Fri Jan 18 10:59:23 PST 2019 by builder in /builds/c/160B/R5-1/panos/main
+
 
 # Generated THU MAY 21 05:29:24 2020 UTC
 

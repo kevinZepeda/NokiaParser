@@ -1,0 +1,48 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+Value mbs (\S+)
+Value cbs (\S+)
+Value test (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}sap-ingress 2031.+? create -> Sap
+  ^\s{4}exit -> Start
+
+Sap
+  ^\s{12}description "${description}
+  ^\s{12}queue 1(?=\s).+? create -> Queue1
+  ^\s{12}queue 11 multipoint.+? create -> Cit
+  ^\s{12}fc "nc" create -> Cnc
+  ^\s{12}default-fc "nc" -> Record
+  ^\s{12}default-priority high -> Record
+  ^\s{8}exit -> Qos 
+
+Queue1
+  ^\s{16}percent-rate 100.00 cir 5.00.+? local-limit -> Record
+  ^\s{12}exit -> Sap 
+
+Cit
+  ^\s{16}rate ${test} -> Record 
+  ^\s{12}exit -> Sap
+
+Cnc
+  ^\s{16}queue 1 -> Record 
+  ^\s{16}in-remark dscp cs5 -> Record
+  ^\s{16}out-remark dscp cs5 -> Record
+  ^\s{12}exit -> Sap
+
+EOF

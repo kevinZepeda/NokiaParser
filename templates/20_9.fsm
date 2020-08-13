@@ -1,0 +1,122 @@
+Value Filldown sysname (\S+)
+Value Filldown model (\S+)
+Value source_ip (\S+)
+Value description (\S+)
+Value mbs (\S+)
+Value cbs (\S+)
+Value test (\S+)
+
+Start
+  ^.+ -oCheckHostIP -> Source
+  ^.+ show chassis -> Chassis
+  ^\s{4}qos -> Qos
+
+Source
+  ^.+@${source_ip}'s\s+password: -> Start
+
+Chassis
+  ^\s+Name\s+:\s${sysname}
+  ^\s+Type\s+:\s${model} -> Start
+
+Qos
+  ^\s{8}sap-ingress 10001.+? create -> Sap
+  ^\s{4}exit -> Start
+
+Sap
+  ^\s{12}description "${description}
+  ^\s{12}queue 1(?=\s).+? create -> Queue1
+  ^\s{12}queue 2.+? best-effort create -> Queue2
+  ^\s{12}queue 3.+? best-effort create -> Queue3
+  ^\s{12}queue 4.+? best-effort create -> Queue4
+  ^\s{12}queue 5.+? expedite create -> Queue5
+  ^\s{12}queue 6.+? expedite create -> Queue6
+  ^\s{12}queue 8.+? expedite create -> Queue8
+  ^\s{12}queue 11 multipoint.+? create -> Queue11
+  ^\s{12}fc "af" create -> Fcaf
+  ^\s{12}fc "be" create -> Fcbe
+  ^\s{12}fc "ef" create -> Fcef
+  ^\s{12}fc "h2" create -> Fch2
+  ^\s{12}fc "l1" create -> Fcl1
+  ^\s{12}fc "l2" create -> Fcl2
+  ^\s{12}fc "nc" create -> Fcnc
+  ^\s{12}dot1p 0 fc "be" priority low -> Record
+  ^\s{12}dot1p 1 fc "l2" priority high -> Record
+  ^\s{12}dot1p 2 fc "af" priority high -> Record
+  ^\s{12}dot1p 3 fc "l1" priority high -> Record
+  ^\s{12}dot1p 4 fc "h2" priority high -> Record
+  ^\s{12}dot1p 5 fc "ef" priority high -> Record
+  ^\s{12}dot1p 6 fc "nc" priority high -> Record
+  ^\s{12}dscp cs1 af11 af12 af13 fc "l2" priority high -> Record
+  ^\s{12}dscp af23 fc "af" priority low -> Record
+  ^\s{12}dscp cs2 af21 af22 fc "af" priority high -> Record
+  ^\s{12}dscp ef fc "ef" priority high -> Record
+  ^\s{12}dscp.+? "h2" priority high -> Record
+  ^\s{12}dscp af33 fc "l1" priority low -> Record
+  ^\s{12}dscp cs3 af31 af32 fc "l1" priority high -> Record
+  ^\s{12}dscp cs5 nc1 nc2 fc "nc" priority high -> Record
+  ^\s{8}exit -> Qos 
+
+Queue1
+  ^\s{16}percent-rate 100.00 cir 5.00.+? local-limit -> Record
+  ^\s{12}exit -> Sap 
+
+Queue2
+  ^\s{16}percent-rate 100.00 cir 2.50.+? local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue3
+  ^\s{16}percent-rate 100.00 cir 7.50.+? local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue4
+  ^\s{16}percent-rate 100.00 cir 15.00.+? local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue5
+  ^\s{16}percent-rate 100.00 cir 15.00.+? local-limit -> Record
+  ^\s{16}mbs ${mbs} kilobytes -> Record
+  ^\s{16}cbs ${cbs} -> Record
+  ^\s{12}exit -> Sap
+
+Queue6
+  ^\s{16}percent-rate 50.00 cir 50.00.+? local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue8
+  ^\s{16}percent-rate 100.00 cir 5.00.+? local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue11
+  ^\s{16}rate 2000 -> Record
+  ^\s{12}exit -> Sap
+
+Fcaf
+  ^\s{16}queue 3 -> Record
+  ^\s{12}exit -> Sap
+
+Fcbe
+  ^\s{16}queue 1 -> Record
+  ^\s{12}exit -> Sap
+
+Fcef
+  ^\s{16}queue 6 -> Record
+  ^\s{12}exit -> Sap
+
+Fch2
+  ^\s{16}queue 5 -> Record
+  ^\s{12}exit -> Sap
+
+Fcl1
+  ^\s{16}queue 4 -> Record
+  ^\s{12}exit -> Sap
+
+Fcl2
+  ^\s{16}queue 2 -> Record
+  ^\s{12}exit -> Sap
+
+Fcnc
+  ^\s{16}queue 8 -> Record
+  ^\s{12}exit -> Sap
+
+
+EOF

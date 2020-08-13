@@ -2,6 +2,9 @@ Value Filldown sysname (\S+)
 Value Filldown model (\S+)
 Value source_ip (\S+)
 Value description (\S+)
+Value mbs (\S+)
+Value cbs (\S+)
+Value test (\S+)
 
 Start
   ^.+ -oCheckHostIP -> Source
@@ -16,23 +19,91 @@ Chassis
   ^\s+Type\s+:\s${model} -> Start
 
 Qos
-  ^\s{8}sap-ingress 2000 name "Mobile:All_Traffic" create -> Sap
+  ^\s{8}sap-ingress 2000.+? create -> Sap
   ^\s{4}exit -> Start
 
 Sap
   ^\s{12}description "${description}
-  ^\s{12}queue 1 priority-mode auto-expedite create-> Queue
-  ^\s{12}level 2 percent-rate 100.00 percent-cir 2.50 -> Record
-  ^\s{12}level 3 percent-rate 100.00 percent-cir 7.50 -> Record
-  ^\s{12}level 4 percent-rate 100.00 percent-cir 15.00 -> Record
-  ^\s{12}level 5 percent-rate 100.00 percent-cir 15.00 -> Record
-  ^\s{12}level 6 percent-rate 50.00 percent-cir 50.00 -> Record
-  ^\s{12}level 7 percent-rate 100.00 percent-cir 0.00 -> Record
-  ^\s{12}level 8 percent-rate 100.00 percent-cir 5.00 -> Record
-  ^\s{12}orphan-override level 5 cir-level 5 -> Record
+  ^\s{12}queue 1 priority-mode auto-expedite create -> Queue1
+  ^\s{12}queue 2 priority-mode best-effort create -> Queue2
+  ^\s{12}queue 3 priority-mode best-effort create -> Queue3
+  ^\s{12}queue 4 priority-mode expedite create -> Queue4
+  ^\s{12}queue 5 priority-mode expedite create -> Queue5
+  ^\s{12}queue 6 priority-mode expedite create -> Queue6
+  ^\s{12}queue 11 multipoint priority-mode auto-expedite create -> Cit
+  ^\s{12}fc "af" create -> Caf
+  ^\s{12}fc "be" create -> Cbe
+  ^\s{12}fc "ef" create -> Cef
+  ^\s{12}fc "h2" create -> Ch2
+  ^\s{12}fc "l1" create -> Cl1
+  ^\s{12}fc "l2" create -> Cl2
+  ^\s{12}fc "nc" create -> Cnc
+  ^\s{12}dscp af23 fc "af" priority low -> Record
+  ^\s{12}dscp cs2 af21 af22 fc "af" priority high -> Record
+  ^\s{12}dscp ef fc "ef" priority high -> Record
+  ^\s{12}dscp cs4 af41 af42 af43 fc "h2" priority high -> Record
+  ^\s{12}dscp af33 fc "l1" priority low -> Record
+  ^\s{12}dscp cs3 af31 af32 fc "l1" priority high -> Record
+  ^\s{12}dscp cs1 af11 af12 af13 fc "l2" -> Record
+  ^\s{12}dscp cs5 nc1 nc2 fc "nc" priority high -> Record
   ^\s{8}exit -> Qos 
 
-Queue
-  ^\s{12}
+Queue1
+  ^\s{16}percent-rate 100.00 cir 7.50 fir 0.00 local-limit -> Record
+  ^\s{12}exit -> Sap 
+
+Queue2
+  ^\s{16}percent-rate 100.00 cir 7.50 fir 0.00 local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue3
+  ^\s{16}percent-rate 100.00 cir 15.00 fir 0.00 local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue4
+  ^\s{16}percent-rate 100.00 cir 15.00 fir 0.00 local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Queue5
+  ^\s{16}percent-rate 50.00 cir 50.00 fir 0.00 local-limit -> Record
+  ^\s{16}mbs ${mbs} kilobytes -> Record
+  ^\s{16}cbs ${cbs} -> Record
+  ^\s{12}exit -> Sap
+
+Queue6
+  ^\s{16}percent-rate 100.00 cir 5.00 fir 0.00 local-limit -> Record
+  ^\s{12}exit -> Sap
+
+Cit
+  ^\s{16}rate 2000 cir 0 fir 0 -> Record 
+  ^\s{12}exit -> Sap
+
+Caf
+  ^\s{16}queue 2 -> Record 
+  ^\s{12}exit -> Sap
+
+Cbe
+  ^\s{16}queue 1 -> Record 
+  ^\s{12}exit -> Sap
+
+Cef
+  ^\s{16}queue 5 -> Record 
+  ^\s{12}exit -> Sap
+
+Ch2
+  ^\s{16}queue 4 -> Record 
+  ^\s{12}exit -> Sap
+
+Cl1
+  ^\s{16}queue 3 -> Record 
+  ^\s{12}exit -> Sap
+
+Cl2
+  ^\s{16}queue 6 -> Record 
+  ^\s{12}exit -> Sap
+
+Cnc
+  ^\s{16}queue 6 -> Record 
+  ^\s{12}exit -> Sap
 
 EOF
