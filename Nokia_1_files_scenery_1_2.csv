@@ -1,6 +1,0 @@
-sysname,chassis,source_ip,interface,lag,port,port_type,queue_group_port,address,isis,mpls,rsvp,slope-policy,egress-scheduler-policy,queue-policy,qos,queue-group
-TIJGTA-IUSTB00956-WA,7750,10.190.0.10,To-ENSENADA-WA-ATT,8,5/1/6,xgige,IPMEAN-QG:10G,10.170.32.78/31,0,1,1,7x50-IPMEAN_ntw_wred,PS-IPMEAN-network:unshaped,7x50-IPMEAN:standard,1000,IPMEAN-QG:10G
-TIJGTA-IUSTB00956-WA,7750,10.190.0.10,To-TECATE-WA-ATT,6,6/1/6,xgige,IPMEAN-QG:10G,10.170.32.96/31,0,1,1,7x50-IPMEAN_ntw_wred,PS-IPMEAN-network:unshaped,7x50-IPMEAN:standard,1000,IPMEAN-QG:10G
-TIJGTA-IUSTB00956-WA,7750,10.190.0.10,To-TIJUANA-CAM,3,5/1/1,xgige,IPMEAN-QG:10G,10.190.32.1/31,0,1,1,7x50-IPMEAN_ntw_wred,PS-IPMEAN-network:unshaped,7x50-IPMEAN:standard,1000,IPMEAN-QG:10G
-TIJGTA-IUSTB00956-WA,7750,10.190.0.10,To-TIJUANA-CBM,4,6/1/1,xgige,IPMEAN-QG:10G,10.190.32.7/31,0,1,1,7x50-IPMEAN_ntw_wred,PS-IPMEAN-network:unshaped,7x50-IPMEAN:standard,1000,IPMEAN-QG:10G
-TIJGTA-IUSTB00956-WA,7750,10.190.0.10,system,,,,,10.190.0.10/32,,1,1,,,,,

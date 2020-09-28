@@ -1,2 +1,0 @@
-Sysname,model,source,description,sap_ingress_2030_create,sap_ingress_2030_description,sap_ingress_2030_queue1_create,sap_ingress_2030_queue1_percent_rate,sap_ingress_2030_queue2_create,sap_ingress_2030_queue2_percent_rate,sap_ingress_2030_queue11_create,sap_ingress_2030_queue11_rate,sap_ingress_2030_fc_be_create,sap_ingress_2030_fc_be_queue,sap_ingress_2030_fc_nc_create,sap_ingress_2030_fc_nc_queue,sap_ingress_2030_dscp_map
-TLALNE-MEX9226-SA,7450,10.190.3.209,"Mobile:Signaling""",1,1,1,1,1,1,1,1,1,1,1,1,1

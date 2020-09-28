@@ -1,2 +1,0 @@
-Sysname,model,source,description,sap_ingress_2021_create,sap_ingress_2021_description,sap_ingress_2021_queue1_create,sap_ingress_2021_queue1_percent_rate,sap_ingress_2021_queue11_create,sap_ingress_2021_queue11_rate,sap_ingress_2021_fc_af_create,sap_ingress_2021_fc_af_queue,sap_ingress_2021_fc_af_in_dscp,sap_ingress_2021_fc_af_out_dscp,sap_ingress_2021_default_fc
-TLALNE-MEX9226-SA,7450,10.190.3.209,"Mobile:Data:default_fc:dscp_mark""",1,1,1,1,1,1,1,1,1,1,1
